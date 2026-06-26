@@ -1,0 +1,53 @@
+\section{Theoretical Interpretation}
+\label{sec:theory}
+
+\subsection{Contraction Mapping on SO(3)}
+
+Let $f: \text{SO}(3)^N \rightarrow \text{SO}(3)^N$ denote the mapping from conditioning rotations to Pi3X's output rotations (after pipeline processing). If $f$ is a contraction, i.e.,
+\begin{equation}
+    d_{\text{SO}(3)}(f(R), R^*) \leq \lambda \cdot d_{\text{SO}(3)}(R, R^*)
+\end{equation}
+for some $\lambda < 1$ and true rotations $R^*$, then by the Banach fixed-point theorem, iteration $R^{(n+1)} = f(R^{(n)})$ converges to a fixed point.
+
+\paragraph{Empirical evidence.} From the noise robustness experiment:
+\begin{itemize}
+    \item Input error 4.4° $\rightarrow$ output error 3.5° ($\lambda \approx 0.80$)
+    \item Input error 5.0° $\rightarrow$ output error 3.3° ($\lambda \approx 0.67$)
+    \item Input error 2.0° $\rightarrow$ output error 1.6° ($\lambda \approx 0.80$)
+\end{itemize}
+
+The contraction rate is approximately $\lambda \approx 0.8$ in the 2--5° regime, predicting convergence to a fixed point at:
+\begin{equation}
+    \text{ARE}^* \approx \frac{\lambda}{1-\lambda} \cdot \epsilon_{\text{model}} \approx 4 \cdot \epsilon_{\text{model}}
+\end{equation}
+where $\epsilon_{\text{model}}$ is Pi3X's irreducible error. With $\text{ARE}^* \approx 3.1°$, this gives $\epsilon_{\text{model}} \approx 0.8°$, consistent with the 1.2° achieved under perfect GT conditioning (which includes pipeline noise).
+
+\paragraph{Failure for translation.} Pi3X outputs poses in Sim(3), not SE(3). The translation component $t^c$ is defined only relative to the per-run scale. Feeding translations back as SE(3) conditioning introduces a scale mismatch that does not contract:
+\begin{equation}
+    t^{(n+1)} = s^{(n)} \cdot f_t(R^{(n)}, t^{(n)}) + \text{bias}
+\end{equation}
+where $s^{(n)}$ is the unknown per-run scale. This explains why ATE degrades monotonically under na\"ive iteration.
+
+\subsection{Denoising Score Matching Interpretation}
+
+The Monte Carlo perturbation strategy connects to denoising score matching~\cite{vincent2011}. If Pi3X was trained with noisy pose conditioning (likely, for robustness), then conditioned inference implicitly computes:
+\begin{equation}
+    \mathbb{E}[R^* \mid R + \epsilon, \text{imgs}] \approx R + \sigma^2 \nabla_R \log p(R \mid \text{imgs})
+\end{equation}
+
+By running $S$ perturbations $\{R + \epsilon_s\}_{s=1}^S$ and averaging the outputs:
+\begin{equation}
+    \bar{R} = \text{Fr\'{e}chetMean}\left(\{f(R + \epsilon_s)\}_{s=1}^S\right)
+\end{equation}
+we approximate the posterior mean $\mathbb{E}[R^* \mid \text{imgs}]$ via Monte Carlo integration. This is a form of Langevin Monte Carlo on the rotation manifold, where each conditioned inference step provides a sample from the posterior.
+
+\subsection{Connection to Diffusion Models}
+
+The iterative refinement process resembles a single-step denoising diffusion:
+\begin{enumerate}
+    \item Start with a noisy estimate $R^{(0)}$ (unconditioned Pi3X output)
+    \item Apply a learned denoiser $f$ conditioned on the images
+    \item The denoiser moves the estimate toward the clean manifold
+\end{enumerate}
+
+Unlike standard diffusion which requires many small steps from pure noise, our setting starts close to the solution ($\sim$4° error) and requires only 2--3 denoising steps. The key difference is that our ``noise schedule'' is not designed but inherited from Pi3X's prediction uncertainty.

@@ -1,0 +1,33 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\title{Iterative Self-Refinement for Multi-Camera Calibration\\via Learned Pose Conditioning}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present a method for improving multi-camera extrinsic calibration using iterative self-conditioning with a learned geometry model. Starting from Pi3X, a permutation-equivariant feed-forward network that estimates camera poses from images, we observe that feeding its own predictions back as conditioning improves rotation estimates but degrades translations due to Sim(3) scale ambiguity. We propose a hybrid fusion strategy that decouples rotation and translation channels: rotation edges are extracted from conditioned inference while translation edges are preserved from unconditioned inference. Combined with Monte Carlo noise perturbation, this achieves 28\% rotation improvement and 21\% relative pose improvement over the baseline, with no external calibration data required.
+\end{abstract}
+
+\input{sec_introduction}
+\input{sec_method}
+\input{sec_results}
+\input{sec_ablation}
+\input{sec_theory}
+\input{sec_discussion}
+
+\bibliographystyle{plain}
+
+\end{document}

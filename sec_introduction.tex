@@ -1,0 +1,15 @@
+\section{Introduction}
+\label{sec:introduction}
+
+We address the problem of extrinsic calibration for 8 static cameras deployed in a cattle feedlot. The scene presents challenges where classical calibration methods fail: textureless dynamic subjects (black cattle), minimal inter-camera overlap, and no physical calibration targets.
+
+We use Pi3X~\cite{pi3x}, a permutation-equivariant feed-forward geometry model that processes all $N$ views jointly and outputs camera poses up to Sim(3) ambiguity. By aggregating predictions across 91 timesteps, we obtain an initial calibration estimate with $\sim$4.4° mean rotation error.
+
+\textbf{Key insight.} Pi3X accepts optional pose conditioning---feeding known camera poses alongside images improves its predictions. We exploit this by feeding Pi3X's \emph{own output} back as conditioning, creating an iterative self-refinement loop. However, na\"ive iteration improves rotation but degrades translation due to Sim(3) scale ambiguity compounding across iterations.
+
+\textbf{Contribution.} We propose a hybrid fusion strategy that:
+\begin{enumerate}
+    \item Decouples rotation and translation in the self-refinement loop
+    \item Uses Monte Carlo noise perturbation to explore the posterior over poses
+    \item Achieves 28\% rotation improvement with no external calibration data
+\end{enumerate}

@@ -1,0 +1,32 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Practical Recommendations}
+
+\begin{enumerate}
+    \item \textbf{Always run the baseline pipeline} (Stage 1)---gauge fixing, outlier rejection, and pose graph optimization provide consistent improvements at negligible cost.
+    \item \textbf{One hybrid refinement step} (Stage 3) offers the best cost-benefit tradeoff: 2$\times$ compute for $\sim$21\% rotation improvement.
+    \item \textbf{Full MC refinement} (Stage 4) is recommended when compute budget allows: 13$\times$ compute for 28\% rotation improvement.
+    \item \textbf{Never iterate na\"ively}---always use hybrid fusion to protect translations from Sim(3) bias accumulation.
+    \item \textbf{Stop after 2--3 iterations}---monitor ARE convergence and terminate when improvement $< 0.1°$.
+\end{enumerate}
+
+\subsection{Limitations}
+
+\begin{itemize}
+    \item The method cannot break the $\sim$3° ARE floor without external priors (the contraction rate $\lambda \approx 0.8$ means the fixed point is at $\sim$3°)
+    \item Translation improvement is bounded by the unconditioned baseline's accuracy
+    \item The 13$\times$ compute cost of full MC refinement may not justify the marginal gain over a single hybrid step for latency-sensitive applications
+    \item Convergence is empirical, not guaranteed---iteration 4+ can diverge due to orientation flips
+    \item The method assumes access to intrinsic camera parameters (available from COLMAP or manufacturer specs)
+\end{itemize}
+
+\subsection{Future Directions}
+
+\begin{itemize}
+    \item \textbf{Depth conditioning}: Pi3X also accepts depth maps as input. Monocular depth priors (e.g., Depth Anything v2) could provide complementary geometric signal without requiring ground truth poses.
+    \item \textbf{Partial conditioning}: Condition on a subset of cameras with higher confidence, letting the model propagate information to uncertain cameras.
+    \item \textbf{Adaptive noise scheduling}: Learn the optimal perturbation magnitude per iteration rather than using a fixed $\sigma_R = 2°$.
+    \item \textbf{Learned fusion weights}: Replace the $\max(w^{\text{cond}}, w^{\text{uncond}})$ heuristic with learned per-edge reliability.
+    \item \textbf{Breaking the 3° floor}: Incorporate sparse LiDAR points or a pre-calibrated camera pair to provide a stronger anchor for the conditioning signal.
+\end{itemize}

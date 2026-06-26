@@ -1,0 +1,46 @@
+\section{Results}
+\label{sec:results}
+
+\subsection{Experimental Setup}
+
+\paragraph{Dataset.} 8 static cameras (2688$\times$1520) in a cattle feedlot, 91 timesteps sampled at interval 10 from synchronized video. Ground truth poses from COLMAP.
+
+\paragraph{Evaluation metrics.}
+\begin{itemize}
+    \item \textbf{ATE}: Absolute Translation Error (RMSE after Sim(3) alignment)
+    \item \textbf{ARE}: Absolute Rotation Error (mean angular error in degrees)
+    \item \textbf{RPE rot/trans}: Relative Pose Error for all camera pairs
+    \item \textbf{C2C3, C5C6}: Distance between co-located camera pairs (GT $\approx$ 0)
+\end{itemize}
+
+\subsection{Comprehensive Comparison}
+
+\begin{table}[h]
+\centering
+\caption{Comprehensive comparison of all methods. ATE and RPE trans are in arbitrary (Sim(3)-aligned) units. Cost is relative to a single unconditioned Pi3X inference pass over 91 timesteps ($\sim$100s on an A100).}
+\label{tab:comparison}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Method & ATE$\downarrow$ & ARE$\downarrow$ & RPE rot$\downarrow$ & RPE trans$\downarrow$ & C2C3$\downarrow$ & Cost \\
+\midrule
+1. Raw Pi3X (quat average) & 0.177 & 4.37° & 6.26° & 0.395 & 0.088 & 1$\times$ \\
+2. + Pipeline & 0.161 & 4.39° & 6.26° & 0.375 & 0.000 & 1$\times$ \\
+3. + Iterative Refinement & 0.166 & 3.49° & 4.93° & 0.384 & 0.000 & 2$\times$ \\
+4. + Hybrid Refinement & 0.159 & 3.45° & 4.93° & 0.322 & 0.000 & 2$\times$ \\
+\textbf{5. + Hybrid MC (3$\times$4)} & \textbf{0.160} & \textbf{3.13°} & \textbf{4.57°} & \textbf{0.311} & \textbf{0.000} & 13$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Summary of Improvements}
+
+Comparing the full method (row 5) against raw Pi3X (row 1):
+\begin{itemize}
+    \item \textbf{ARE}: 4.37° $\rightarrow$ 3.13° (\textbf{28\% improvement})
+    \item \textbf{RPE rot}: 6.26° $\rightarrow$ 4.57° (\textbf{27\% improvement})
+    \item \textbf{RPE trans}: 0.395 $\rightarrow$ 0.311 (\textbf{21\% improvement})
+    \item \textbf{ATE}: 0.177 $\rightarrow$ 0.160 (\textbf{10\% improvement})
+    \item \textbf{Co-location}: 0.088 $\rightarrow$ 0.000 (hard constraint enforced)
+\end{itemize}
+
+The hybrid refinement (row 4) offers the best cost-benefit tradeoff: 2$\times$ compute for 21\% rotation and 18\% RPE improvement.
