@@ -1,32 +1,10 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{Practical Recommendations}
+\paragraph{Practical deployment.} The hybrid fusion strategy (Stage~3) provides the most favourable accuracy--cost tradeoff: a single conditioned inference pass (2$\times$ compute) yields $\sim$21\% rotation improvement while preserving translation. The full MC iterative method (Stage~4, 13$\times$ compute) offers diminishing marginal gains and is appropriate primarily for offline applications where sub-3\degree{} rotation accuracy justifies the additional cost. In all cases, hybrid decoupling is essential---na\"ive iteration without it leads to progressive translation degradation regardless of the number of steps.
 
-\begin{enumerate}
-    \item \textbf{Always run the baseline pipeline} (Stage 1)---gauge fixing, outlier rejection, and pose graph optimization provide consistent improvements at negligible cost.
-    \item \textbf{One hybrid refinement step} (Stage 3) offers the best cost-benefit tradeoff: 2$\times$ compute for $\sim$21\% rotation improvement.
-    \item \textbf{Full MC refinement} (Stage 4) is recommended when compute budget allows: 13$\times$ compute for 28\% rotation improvement.
-    \item \textbf{Never iterate na\"ively}---always use hybrid fusion to protect translations from Sim(3) bias accumulation.
-    \item \textbf{Stop after 2--3 iterations}---monitor ARE convergence and terminate when improvement $< 0.1°$.
-\end{enumerate}
+\paragraph{Generality of the framework.} While our experiments use Pi3X, the decoupled hybrid refinement framework applies in principle to any learned geometry model that (i) accepts pose conditioning as input, and (ii) outputs poses defined up to a gauge ambiguity. These properties are shared by several recent architectures (Table~\ref{tab:benchmark}). The contraction analysis (Section~\ref{sec:theory}) provides a diagnostic: measuring input--output error reduction under corrupted conditioning reveals whether a given model exhibits the contraction property and, if so, at what rate. Models with $\lambda < 1$ are amenable to self-refinement; those with $\lambda \geq 1$ are not.
 
-\subsection{Limitations}
+\paragraph{Limitations.} Several constraints bound the applicability of our method. The accuracy floor ($\sim$3\degree{} ARE) is determined by the contraction rate and the model's irreducible error---it cannot be lowered without stronger external priors or architectural modifications to the conditioning mechanism. Translation accuracy is bounded by the quality of unconditioned inference, since hybrid fusion anchors translations to this source. The convergence is empirical: while iterations 1--3 consistently improve, iteration 4 and beyond can produce orientation flips (Table~\ref{tab:convergence}), necessitating a stopping criterion. Finally, our evaluation is conducted on a single multi-camera installation; generalisation to other wide-baseline deployments with different camera counts and geometries remains to be validated.
 
-\begin{itemize}
-    \item The method cannot break the $\sim$3° ARE floor without external priors (the contraction rate $\lambda \approx 0.8$ means the fixed point is at $\sim$3°)
-    \item Translation improvement is bounded by the unconditioned baseline's accuracy
-    \item The 13$\times$ compute cost of full MC refinement may not justify the marginal gain over a single hybrid step for latency-sensitive applications
-    \item Convergence is empirical, not guaranteed---iteration 4+ can diverge due to orientation flips
-    \item The method assumes access to intrinsic camera parameters (available from COLMAP or manufacturer specs)
-\end{itemize}
-
-\subsection{Future Directions}
-
-\begin{itemize}
-    \item \textbf{Depth conditioning}: Pi3X also accepts depth maps as input. Monocular depth priors (e.g., Depth Anything v2) could provide complementary geometric signal without requiring ground truth poses.
-    \item \textbf{Partial conditioning}: Condition on a subset of cameras with higher confidence, letting the model propagate information to uncertain cameras.
-    \item \textbf{Adaptive noise scheduling}: Learn the optimal perturbation magnitude per iteration rather than using a fixed $\sigma_R = 2°$.
-    \item \textbf{Learned fusion weights}: Replace the $\max(w^{\text{cond}}, w^{\text{uncond}})$ heuristic with learned per-edge reliability.
-    \item \textbf{Breaking the 3° floor}: Incorporate sparse LiDAR points or a pre-calibrated camera pair to provide a stronger anchor for the conditioning signal.
-\end{itemize}
+\paragraph{Future work.} Several directions merit investigation. First, Pi3X also accepts depth conditioning---monocular depth priors (e.g., Depth Anything~v2) could provide complementary geometric signal without requiring ground truth poses, potentially breaking the rotation floor. Second, partial conditioning (conditioning only high-confidence cameras while leaving others unconditioned) may exploit the model's cross-view attention to propagate reliable pose information to uncertain views. Third, the fixed perturbation magnitude ($\sigma_R = 2\degree{}$) could be replaced by an adaptive noise schedule that decreases across iterations, following the annealing principle from diffusion-based methods. Fourth, sparse geometric anchors (a pre-calibrated camera pair or LiDAR registration points) could provide a stronger initialisation that places the estimate deeper within the contraction basin, accelerating convergence and lowering the fixed point.

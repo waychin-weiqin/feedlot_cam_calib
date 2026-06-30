@@ -18,7 +18,7 @@ where $\mathbf{p}_k^c \in \mathbb{R}^3$ denotes the position of camera $c$ at ti
 
 \paragraph{Pose graph optimization.} We extract pairwise relative poses $T_{ij} = (T^i)^{-1} T^j$ from inlier timesteps, computing the Fr\'{e}chet mean rotation and mean translation for each camera pair $(i, j)$. These relative poses serve as edges in a pose graph, weighted by the inverse variance of the per-timestep estimates (edges with higher consistency receive more weight). We then optimise globally via $L_1$ Weiszfeld rotation averaging on SO(3)~\cite{hartley2013} followed by translation averaging with hard co-location constraints for cameras sharing a physical mounting pole.
 
-\paragraph{Motivation for learned refinement.} This pipeline reduces ATE by 10\% (0.177 $\rightarrow$ 0.161) but leaves ARE essentially unchanged (4.37\degree{} $\rightarrow$ 4.39\degree{}). The residual rotation error is systematic---not reducible by further classical aggregation---because the scene provides weak geometric signal (flat pen, repetitive dynamic content). This motivates exploiting Pi3X's conditioning interface to inject prior information.
+\paragraph{Residual error analysis.} This pipeline reduces ATE by 10\% (0.177 $\rightarrow$ 0.161) but leaves ARE unchanged (4.37\degree{} $\rightarrow$ 4.39\degree{}). The persistence of rotation error under robust averaging over 91 independent timesteps indicates that the residual is systematic model bias rather than sample noise. Since the scene provides weak geometric signal (approximately planar static structure, dynamic repetitive content), further classical aggregation cannot improve upon this estimate. This motivates the use of Pi3X's conditioning interface to inject prior geometric information, as developed in the following sections.
 
 \subsection{Self-Conditioned Inference (Stage 2)}
 \label{sec:stage2}
@@ -29,13 +29,7 @@ Pi3X supports multimodal conditioning: given approximate poses $\hat{T}^c$ and c
 \end{equation}
 where $f_\theta$ denotes Pi3X and $\hat{T}^c$ is the Stage~1 estimate converted to the model's input camera ordering.
 
-Applying the same geometric post-processing to $\{T_k^{c,(1)}\}$ yields a refined estimate. We observe:
-\begin{itemize}
-    \item ARE improves: 4.39\degree{} $\rightarrow$ 3.49\degree{} (20\% reduction)
-    \item ATE degrades: 0.161 $\rightarrow$ 0.166 (3\% increase)
-\end{itemize}
-
-Iterating na\"ively amplifies both effects---rotation continues to improve (to $\sim$3.3\degree{}) while translation degrades monotonically (to 0.195 after 5 iterations). Section~\ref{sec:theory} provides a theoretical explanation: the rotation component contracts toward a fixed point on SO(3), while translations diverge due to Sim(3) scale mismatch.
+Applying the same geometric post-processing to $\{T_k^{c,(1)}\}$ yields a refined estimate with ARE reduced from $4.39\degree$ to $3.49\degree$ (20\% improvement) but ATE increased from 0.161 to 0.166 (3\% degradation). Iterating this process na\"ively amplifies both effects: rotation improves further (to $\sim$3.3\degree$) while translation degrades monotonically (to 0.195 ATE after 5 iterations). Section~\ref{sec:theory} provides a formal explanation: the rotation component contracts toward a fixed point on SO(3), while translations diverge due to Sim(3) scale mismatch in the conditioning pathway.
 
 \subsection{Decoupled Hybrid Fusion (Stage 3)}
 \label{sec:stage3}

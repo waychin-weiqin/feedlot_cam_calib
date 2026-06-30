@@ -1,13 +1,15 @@
 \section{Ablation Studies}
 \label{sec:ablation}
 
-\subsection{Why Hybrid Fusion is Necessary}
+We isolate the contribution of each design decision through four ablation experiments.
 
-Na\"ive iterative refinement (feeding full conditioned output back without decoupling) degrades translation while improving rotation:
+\subsection{Effect of Hybrid Decoupling}
+
+Table~\ref{tab:naive_vs_hybrid} compares na\"ive iterative refinement (feeding the full conditioned output back without decoupling) against our hybrid approach.
 
 \begin{table}[h]
 \centering
-\caption{Na\"ive vs.\ hybrid iterative refinement over 5 iterations.}
+\caption{Na\"ive vs.\ hybrid iterative refinement. Na\"ive iteration improves rotation at the cost of translation; hybrid fusion achieves superior rotation improvement while preserving translation accuracy.}
 \label{tab:naive_vs_hybrid}
 \begin{tabular}{@{}lcccc@{}}
 \toprule
@@ -20,15 +22,16 @@ Hybrid MC (iter 2) & 0.160 & 3.13\degree{} & $-$1\% & $-$29\% \\
 \end{tabular}
 \end{table}
 
-The Sim(3) scale ambiguity in Pi3X outputs means that conditioned translations accumulate bias across iterations. The hybrid approach avoids this by anchoring translations to the unconditioned source.
+Na\"ive iteration degrades ATE by 21\% while improving ARE by only 18\%. In contrast, hybrid fusion achieves 29\% ARE improvement with negligible translation change. This confirms the theoretical prediction of Section~\ref{sec:theory}: translation does not contract under self-conditioning and must be anchored to the unconditioned estimate.
 
-\subsection{Noise Robustness of Pose Conditioning}
+\subsection{Sensitivity to Conditioning Quality}
+\label{sec:noise_sensitivity}
 
-We test Pi3X's conditioning with ground truth poses corrupted by varying levels of Gaussian noise:
+To characterise the basin of attraction, we condition Pi3X with ground truth poses corrupted by varying levels of Gaussian noise (Table~\ref{tab:noise_robustness}).
 
 \begin{table}[h]
 \centering
-\caption{Effect of conditioning pose quality on Pi3X output (after full pipeline). Translation noise is isotropic Gaussian in the scene coordinate system.}
+\caption{Effect of conditioning pose quality on output accuracy. Translation noise is isotropic Gaussian in scene coordinates. Beyond $\sim$10\degree{} rotation noise, conditioning becomes counterproductive and the model diverges.}
 \label{tab:noise_robustness}
 \begin{tabular}{@{}cccc@{}}
 \toprule
@@ -44,24 +47,19 @@ Rot.\ noise (\degree{}) & Trans.\ noise & ATE$\downarrow$ & ARE$\downarrow$ \\
 \end{tabular}
 \end{table}
 
-Key observations:
-\begin{itemize}
-    \item Conditioning tolerates up to $\sim$5\degree{} of rotation noise
-    \item Beyond 10\degree{}, the conditioning signal becomes misleading and breaks the model
-    \item Our self-conditioned prior ($\sim$4.4\degree{} error) is at the edge of the useful regime, explaining the diminishing returns beyond 2--3 iterations
-\end{itemize}
+The model tolerates conditioning noise up to approximately 5\degree{} of rotation error, producing output that improves upon the conditioning input. At 10\degree{}, the conditioning signal becomes misleading and the model collapses to degenerate solutions ($180\degree{}$ ARE indicates random orientations). The transition is sharp rather than gradual, indicating a well-defined basin boundary. Our self-conditioned prior ($\sim$4.4\degree{} error) lies near the edge of this basin, which explains both why self-refinement succeeds and why it saturates after 2--3 iterations as the estimate approaches the basin's contraction limit.
 
-\subsection{Convergence Behavior}
+\subsection{Convergence Behaviour}
 
-The iterated hybrid MC method converges within 2--3 iterations:
+Table~\ref{tab:convergence} reports per-iteration metrics for the full hybrid MC method.
 
 \begin{table}[h]
 \centering
-\caption{Convergence of iterated hybrid MC refinement (4 samples per iteration).}
+\caption{Convergence of iterated hybrid MC refinement ($S=4$ samples per iteration). Iteration~2 achieves the minimum ARE; iteration~4 produces an orientation flip in the rotation estimate.}
 \label{tab:convergence}
 \begin{tabular}{@{}ccccc@{}}
 \toprule
-Iteration & ATE & ARE (°) & RPE rot (°) & RPE trans \\
+Iteration & ATE & ARE (\degree{}) & RPE$_R$ (\degree{}) & RPE$_t$ \\
 \midrule
 0 (unconditioned) & 0.161 & 4.39 & 6.26 & 0.375 \\
 1 & 0.162 & 3.43 & 4.88 & 0.321 \\
@@ -72,19 +70,19 @@ Iteration & ATE & ARE (°) & RPE rot (°) & RPE trans \\
 \end{tabular}
 \end{table}
 
-Iteration 2 is the sweet spot. Beyond iteration 3, the conditioned rotations begin to drift and can cause orientation flips (iter 4). We recommend stopping after 2--3 iterations or when ARE improvement is $<0.1\degree{}$.
+The method converges monotonically through iterations 1--2, achieving a 29\% ARE reduction. Iteration~3 shows slight regression, and iteration~4 produces catastrophic failure (orientation flip in at least one camera). This behaviour is consistent with the basin-of-attraction analysis: as the conditioned estimate approaches the $\sim$3\degree{} fixed point, the margin between the estimate's error and the basin boundary narrows, making the iteration sensitive to perturbation noise. We adopt a conservative stopping criterion of $M=2$ iterations or ARE improvement below $0.1\degree{}$ between successive iterations.
 
-\subsection{Sim(3) Constraint Does Not Help}
+\subsection{Inefficacy of Sim(3) Re-alignment}
 
-We tested Sim(3)-aligning the conditioned output back to the conditioning frame before each iteration (to prevent scale drift). Results are identical to na\"ive iteration, confirming that translation degradation is not caused by scale drift but by systematic bias in how Pi3X uses pose conditioning:
+One might hypothesise that translation degradation under na\"ive iteration is caused by scale drift---each iteration's output uses a different arbitrary scale, and this accumulates. To test this, we Sim(3)-align each iteration's output back to the conditioning frame before re-injection. Table~\ref{tab:sim3} shows that this intervention has no measurable effect.
 
 \begin{table}[h]
 \centering
-\caption{Sim(3)-constrained vs.\ na\"ive iteration (5 iterations).}
+\caption{Sim(3)-constrained vs.\ unconstrained na\"ive iteration. Constraining scale does not prevent translation degradation, confirming that the failure mechanism is systematic conditioning bias rather than scale drift.}
 \label{tab:sim3}
 \begin{tabular}{@{}ccccc@{}}
 \toprule
-Iter & Sim3 ATE & Sim3 ARE & Na\"ive ATE & Na\"ive ARE \\
+Iter & Sim(3) ATE & Sim(3) ARE & Unconstrained ATE & Unconstrained ARE \\
 \midrule
 0 & 0.152 & 4.69\degree{} & 0.152 & 4.69\degree{} \\
 1 & 0.160 & 3.50\degree{} & 0.160 & 3.50\degree{} \\
@@ -93,3 +91,5 @@ Iter & Sim3 ATE & Sim3 ARE & Na\"ive ATE & Na\"ive ARE \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+The near-identical degradation trajectories confirm that translation failure is not a scale problem but a structural one: Pi3X's conditioning mechanism introduces systematic translational bias that is independent of the output's global scale. This motivates our decision to anchor translations entirely to the unconditioned source rather than attempting to correct the conditioned output.

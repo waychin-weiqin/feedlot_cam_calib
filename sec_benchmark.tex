@@ -41,19 +41,8 @@ MonST3R & ICLR'25 & Pairwise & --- & 2.607 & 47.24\degree & 23.87\degree & 3.56 
 
 \subsection{Analysis}
 
-The benchmark reveals a clear hierarchy:
+The results reveal a clear performance gap between architectures. Pi3X achieves sub-5\degree{} rotation error and 0.177 ATE---3.5$\times$ better in translation than the next model (MapAnything). MapAnything and VGGT form a second cluster at $\sim$10\degree{} rotation error: functional but substantially less accurate. The remaining models (NoPo4D, Fast3R, MonST3R, Pow3R) all exceed 20\degree{} rotation error and effectively fail on this dataset.
 
-\paragraph{Tier 1: Pi3X.} Achieves sub-5\degree{} rotation error and 0.177 ATE---3.5$\times$ better than the next model. Its permutation-equivariant architecture that processes all 8 views jointly is well-suited to wide-baseline multi-camera geometry.
+Two structural patterns emerge from these results. First, N-view joint architectures (Pi3X, MapAnything, VGGT) consistently outperform pairwise models, confirming that joint multi-view reasoning is essential when inter-camera overlap is minimal---pairwise models cannot propagate geometric constraints across views that share no visual content. Second, the co-location metric reveals differences in structural understanding that are masked by aggregate error: Pi3X correctly infers that cameras C2 and C3 share a mounting pole (distance 0.088), while VGGT (2.011) and Fast3R (3.183) place them far apart.
 
-\paragraph{Tier 2: MapAnything, VGGT.} Both achieve $\sim$10\degree{} rotation error. Usable but significantly less accurate than Pi3X on this task.
-
-\paragraph{Tier 3: Remaining models.} MonST3R, Pow3R, NoPo4D, and Fast3R all exceed 20\degree{} rotation error---effectively failing on this dataset. The pairwise models (MonST3R, Pow3R) struggle because their post-hoc global alignment amplifies errors when inter-camera overlap is minimal.
-
-\paragraph{Key observations.}
-\begin{itemize}
-    \item N-view joint models (Pi3X, MapAnything, VGGT) consistently outperform pairwise models, confirming that joint multi-view reasoning is essential for wide-baseline configurations.
-    \item The co-location metric (C2C3) discriminates structural understanding: Pi3X correctly identifies that C2 and C3 share a pole (0.088), while VGGT (2.011) and Fast3R (3.183) place them far apart.
-    \item All models were published in 2025, indicating that wide-baseline feature-adversarial calibration remains a frontier challenge for even the latest foundation models.
-\end{itemize}
-
-Based on this benchmark, we select Pi3X as our backbone and develop our self-refinement method (Sections~\ref{sec:stage2}--\ref{sec:stage4}) to push beyond its $\sim$4.4\degree{} accuracy ceiling.
+Notably, Pi3X is one of only three models that support pose conditioning (Table~\ref{tab:benchmark}, ``Cond.'' column)---a prerequisite for the self-refinement method developed in subsequent sections. Its combination of highest accuracy and conditioning support makes it the natural backbone. The remainder of this paper develops methods to push beyond Pi3X's $\sim$4.4\degree{} accuracy ceiling, which resists further improvement through standard geometric post-processing alone.

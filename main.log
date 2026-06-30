@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.25)  30 JUN 2026 11:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.25)  30 JUN 2026 11:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -368,7 +368,7 @@ File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count295
 \l__pdf_internal_box=\box56
 )
-(./main.aux)
+No file main.aux.
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
@@ -389,7 +389,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
- (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count296
 \scratchdimen=\dimen177
@@ -427,8 +427,6 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 19.
 LaTeX Info: Redefining \pageref on input line 19.
 LaTeX Info: Redefining \nameref on input line 19.
-
-(./main.out) (./main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
@@ -489,28 +487,98 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 21.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-(./sec_introduction.tex [1
+(./sec_introduction.tex
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]) (./sec_related.tex [2]
-Overfull \hbox (13.89749pt too wide) in paragraph at lines 6--7
+LaTeX Warning: Citation `zhang2000' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation `schonberger2016' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation `pi3x' on page 1 undefined on input line 8.
+
+
+LaTeX Warning: Citation `vggt' on page 1 undefined on input line 8.
+
+
+LaTeX Warning: Citation `dust3r' on page 1 undefined on input line 8.
+
+
+LaTeX Warning: Citation `pi3x' on page 1 undefined on input line 8.
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]) (./sec_related.tex
+
+LaTeX Warning: Citation `dust3r' on page 2 undefined on input line 4.
+
+
+LaTeX Warning: Citation `mast3r' on page 2 undefined on input line 4.
+
+
+LaTeX Warning: Citation `pi3x' on page 2 undefined on input line 4.
+
+
+LaTeX Warning: Citation `vggt' on page 2 undefined on input line 4.
+
+
+LaTeX Warning: Citation `zhang2000' on page 2 undefined on input line 6.
+
+
+LaTeX Warning: Citation `cipolla1999' on page 2 undefined on input line 6.
+
+
+LaTeX Warning: Citation `schonberger2016' on page 2 undefined on input line 6.
+
+
+Overfull \hbox (8.91708pt too wide) in paragraph at lines 6--7
  []\T1/cmr/bx/n/10.95 Multi-camera cal-i-bra-tion.[] \T1/cmr/m/n/10.95 Clas-si-
 cal ex-trin-sic cal-i-bra-tion uses phys-i-cal tar-gets (checker-boards [[]]),
  []
 
-) (./sec_benchmark.tex [3]
+
+LaTeX Warning: Citation `hartley2013' on page 2 undefined on input line 8.
+
+
+LaTeX Warning: Citation `chatterjee2018' on page 2 undefined on input line 8.
+
+
+LaTeX Warning: Citation `moulon2013' on page 2 undefined on input line 8.
+
+
+LaTeX Warning: Citation `sun2020' on page 2 undefined on input line 10.
+
+
+LaTeX Warning: Citation `godard2019' on page 2 undefined on input line 10.
+
+[2]
+
+LaTeX Warning: Citation `besl1992' on page 3 undefined on input line 12.
+
+
+LaTeX Warning: Citation `triggs2000' on page 3 undefined on input line 12.
+
+
+LaTeX Warning: Citation `song2021' on page 3 undefined on input line 14.
+
+
+LaTeX Warning: Citation `yim2023' on page 3 undefined on input line 14.
+
+
+LaTeX Warning: Reference `sec:stage4' on page 3 undefined on input line 14.
+
+) (./sec_benchmark.tex
 Overfull \hbox (16.23235pt too wide) in paragraph at lines 24--40
  [][] 
  []
 
-[4pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
-as been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.55     \item T
-                he co-location metric (C2C3) discriminates structural unders...
-]) (./sec_method.tex
+[3]
 
-LaTeX Warning: Citation `umeyama1991' on page 5 undefined on input line 11.
+LaTeX Warning: Reference `tab:benchmark' on page 4 undefined on input line 48.
+
+) (./sec_method.tex
+
+LaTeX Warning: Citation `umeyama1991' on page 4 undefined on input line 11.
 
 ! Undefined control sequence.
 l.13     \{s^*, R^*, \mathbf{t}^*\} = \argmin
@@ -521,8 +589,17 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+[4pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.14 \end{equation}
+                   ]
 
 LaTeX Warning: Citation `moakher2002' on page 5 undefined on input line 17.
+
+
+LaTeX Warning: Citation `hartley2013' on page 5 undefined on input line 19.
 
 
 Overfull \hbox (8.41008pt too wide) in paragraph at lines 19--20
@@ -532,22 +609,107 @@ ML/cmm/m/it/10.95 T[]\OT1/cmr/m/n/10.95 )[]\OML/cmm/m/it/10.95 T[]$ \T1/cmr/m/n
 /10.95 from in-lier timesteps,
  []
 
-[5] [6]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 64.
-) (./sec_theory.tex [7]
-LaTeX Font Info:    Trying to load font information for U+euf on input line 12.
 
+LaTeX Warning: Reference `sec:theory' on page 5 undefined on input line 32.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.33 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (106.8391pt too wide) in paragraph at lines 32--33
+\OMS/cmsy/m/n/10.95 ^^X$\T1/cmr/m/n/10.95 3.3$[]$$\OT1/cmr/m/n/10.95 )\OML/cmm/
+m/it/10.95 whiletranslationdegradesmonotonically\OT1/cmr/m/n/10.95 (\OML/cmm/m/
+it/10.95 to\OT1/cmr/m/n/10.95 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 195\OML/
+cmm/m/it/10.95 ATEafter\OT1/cmr/m/n/10.95 5\OML/cmm/m/it/10.95 iterations\OT1/c
+mr/m/n/10.95 )\OML/cmm/m/it/10.95 :Section [][]providesaformalexplanation \OT1/
+cmr/m/n/10.95 :
+ []
+
+
+Overfull \hbox (212.35077pt too wide) in paragraph at lines 32--33
+\OML/cmm/m/it/10.95 therotationcomponentcontractstowardafixedpointonSO\OT1/cmr/
+m/n/10.95 (3)\OML/cmm/m/it/10.95 ; whiletranslationsdivergeduetoSim\OT1/cmr/m/n
+/10.95 (3)\OML/cmm/m/it/10.95 scalemismatchintheconditioningpathway:$ 
+ []
+
+[5]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 58.
+ [6]
+
+LaTeX Warning: Reference `sec:ablation' on page 7 undefined on input line 84.
+
+
+LaTeX Warning: Reference `sec:ablation' on page 7 undefined on input line 86.
+
+
+LaTeX Warning: Reference `sec:theory' on page 7 undefined on input line 89.
+
+) (./sec_theory.tex
+
+LaTeX Warning: Reference `sec:method' on page 7 undefined on input line 4.
+
+LaTeX Font Info:    Trying to load font information for U+euf on input line 12.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
-) [8])
-(./sec_results.tex [9] [10pdfTeX warning (ext4): destination with the same iden
-tifier (name{table.2}) has been already used, duplicate ignored
+)
+
+LaTeX Warning: Reference `sec:ablation' on page 7 undefined on input line 20.
+
+
+LaTeX Warning: Reference `tab:noise_robustness' on page 7 undefined on input li
+ne 20.
+
+[7]
+
+LaTeX Warning: Reference `sec:ablation' on page 8 undefined on input line 34.
+
+
+LaTeX Warning: Citation `vincent2011' on page 8 undefined on input line 51.
+
+
+LaTeX Warning: Citation `song2021' on page 8 undefined on input line 66.
+
+[8]) (./sec_results.tex
+
+LaTeX Warning: Reference `tab:comparison' on page 9 undefined on input line 20.
+
+
+
+LaTeX Warning: Reference `tab:comparison' on page 9 undefined on input line 44.
+
+
+
+LaTeX Warning: Reference `sec:ablation' on page 9 undefined on input line 48.
+
+[9]) (./sec_ablation.tex
+
+LaTeX Warning: Reference `tab:naive_vs_hybrid' on page 10 undefined on input li
+ne 8.
+
+[10pdfTeX warning (ext4): destination with the same identifier (name{table.2}) 
+has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.53 
-     ]) (./sec_ablation.tex
+l.23 \end{table}
+                ]
+
+LaTeX Warning: Reference `sec:theory' on page 11 undefined on input line 25.
+
+
+LaTeX Warning: Reference `tab:noise_robustness' on page 11 undefined on input l
+ine 30.
+
+
+LaTeX Warning: Reference `tab:convergence' on page 11 undefined on input line 5
+4.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -555,56 +717,75 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.73 \end{table}
-                ]) (./sec_discussion.tex [12pdfTeX warning (ext4): destination 
-with the same identifier (name{table.4}) has been already used, duplicate ignor
-ed
+l.74 
+     pdfTeX warning (ext4): destination with the same identifier (name{table.4}
+) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.8     \item \textbf
-                     {One hybrid refinement step} (Stage 3) offers the best ...
-pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
- been already used, duplicate ignored
+l.74 
+     ]
+
+LaTeX Warning: Reference `tab:sim3' on page 12 undefined on input line 77.
+
+) (./sec_discussion.tex
+Overfull \hbox (13.20168pt too wide) in paragraph at lines 4--5
+ []\T1/cmr/bx/n/10.95 Practical de-ploy-ment.[] \T1/cmr/m/n/10.95 The hy-brid f
+u-sion strat-egy (Stage 3) pro-vides the most favourable accuracy--
+ []
+
+
+LaTeX Warning: Reference `tab:benchmark' on page 12 undefined on input line 6.
+
+
+LaTeX Warning: Reference `sec:theory' on page 12 undefined on input line 6.
+
+[12pdfTeX warning (ext4): destination with the same identifier (name{table.5}) 
+has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.8     \item \textbf
-                     {One hybrid refinement step} (Stage 3) offers the best ...
-pdfTeX warning (ext4): destination with the same identifier (name{table.6}) has
- been already used, duplicate ignored
+l.7 
+    pdfTeX warning (ext4): destination with the same identifier (name{table.6})
+ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.8     \item \textbf
-                     {One hybrid refinement step} (Stage 3) offers the best ...
-]
+l.7 
+    ]
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 11.
+LaTeX Warning: Reference `tab:convergence' on page 13 undefined on input line 8
+.
 
+) (./sec_conclusion.tex
+Overfull \hbox (2.62976pt too wide) in paragraph at lines 10--1
+ []\T1/cmr/bx/n/10.95 Future work.[] \T1/cmr/m/n/10.95 Sev-eral di-rec-tions me
+rit in-ves-ti-ga-tion. First, Pi3X also ac-cepts depth conditioning---
+ []
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 11.
-
-Missing character: There is no ° in font cmr10!
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 29.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 29.
-
-Missing character: There is no ° in font cmr10!
-) (./sec_conclusion.tex [13]) (./main.bbl [14]) [15] (./main.aux)
+)
+No file main.bbl.
+[13] (./main.aux)
 
 LaTeX Warning: There were undefined references.
 
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: F6A7ABD2A7271DD6B242B01905EB22DD;5933.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  C59088EA96CF65E17F17868961B3C075;4797.
  ) 
 Here is how much of TeX's memory you used:
- 11436 strings out of 478287
- 173352 string characters out of 5849289
- 478390 words of memory out of 5000000
- 29279 multiletter control sequences out of 15000+600000
- 489542 words of font info for 79 fonts, out of 8000000 for 9000
+ 11360 strings out of 478287
+ 172384 string characters out of 5849289
+ 475609 words of memory out of 5000000
+ 29238 multiletter control sequences out of 15000+600000
+ 493139 words of font info for 89 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,11n,63p,1082b,578s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,11n,63p,1188b,578s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/share/texmf
 /fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
@@ -626,12 +807,12 @@ f/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public
 /cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0900.p
 fb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf
 /fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/
-cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pf
-b>
-Output written on main.pdf (15 pages, 405400 bytes).
+cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pf
+b></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb>
+Output written on main.pdf (13 pages, 412602 bytes).
 PDF statistics:
- 496 PDF objects out of 1000 (max. 8388607)
- 424 compressed objects within 5 object streams
- 143 named destinations out of 1000 (max. 500000)
- 265 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 317 PDF objects out of 1000 (max. 8388607)
+ 248 compressed objects within 3 object streams
+ 112 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
