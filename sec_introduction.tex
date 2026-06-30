@@ -17,7 +17,7 @@ Our contributions are as follows:
 
     \item We propose \emph{decoupled hybrid fusion}, a method that exploits this asymmetry by sourcing rotation edges from conditioned inference and translation edges from unconditioned inference within a unified pose graph.
 
-    \item We introduce a Monte Carlo perturbation strategy that interprets conditioned inference as approximate posterior sampling, and show that iterating hybrid fusion with stochastic perturbation achieves 28\% rotation improvement and 21\% relative pose improvement over the baseline without any external calibration data.
+    \item We show that iterating hybrid fusion achieves 27\% rotation improvement and 36\% relative pose improvement over the baseline at only 3$\times$ compute cost, without any external calibration data. Furthermore, we demonstrate through ablation that Monte Carlo perturbation of the conditioning signal---motivated by a posterior sampling interpretation---provides no measurable benefit, revealing that the model's posterior under self-conditioning is tightly unimodal.
 
     \item We derive the method's accuracy floor from the measured contraction rate and validate the prediction experimentally, establishing principled criteria for when self-refinement helps and when it saturates.
 \end{enumerate}

@@ -26,7 +26,8 @@ Ground truth poses are obtained from COLMAP applied to a static scene capture (n
 Model & Venue & Type & Cond. & ATE$\downarrow$ & ARE$\downarrow$ & RPE$_R$$\downarrow$ & RPE$_t$$\downarrow$ & C2C3$\downarrow$ & Time (s) \\
 \midrule
 \multicolumn{10}{@{}l}{\textit{N-view (joint)}} \\[2pt]
-\textbf{Pi3X} & CVPR'25 & N-view & \checkmark & \textbf{0.177} & \textbf{4.37\degree} & \textbf{6.26\degree} & \textbf{0.39} & \textbf{0.088} & 106 \\
+\textbf{Pi3X} & CVPR'25 & N-view & \checkmark & \textbf{0.177} & 4.37\degree & \textbf{6.26\degree} & \textbf{0.39} & \textbf{0.088} & 106 \\
+Pi3 & CVPR'25 & N-view & --- & 0.242 & \textbf{4.08\degree} & 5.98\degree & 0.37 & 0.000 & 121 \\
 MapAnything & CVPR'25 & N-view & \checkmark & 0.627 & 9.17\degree & 14.19\degree & 0.93 & 0.313 & 86 \\
 VGGT & CVPR'25 & N-view & --- & 1.248 & 10.48\degree & 12.82\degree & 1.55 & 2.011 & 75 \\
 NoPo4D & arXiv'25 & N-view & --- & 2.556 & 62.06\degree & 77.01\degree & 3.17 & 0.627 & 214 \\
@@ -41,8 +42,8 @@ MonST3R & ICLR'25 & Pairwise & --- & 2.607 & 47.24\degree & 23.87\degree & 3.56 
 
 \subsection{Analysis}
 
-The results reveal a clear performance gap between architectures. Pi3X achieves sub-5\degree{} rotation error and 0.177 ATE---3.5$\times$ better in translation than the next model (MapAnything). MapAnything and VGGT form a second cluster at $\sim$10\degree{} rotation error: functional but substantially less accurate. The remaining models (NoPo4D, Fast3R, MonST3R, Pow3R) all exceed 20\degree{} rotation error and effectively fail on this dataset.
+The results reveal a clear performance gap between architectures. Pi3X and Pi3 (its smaller variant) both achieve sub-5\degree{} rotation error, with Pi3 achieving slightly better ARE (4.08\degree{} vs.\ 4.37\degree{}) but worse ATE (0.242 vs.\ 0.177). MapAnything and VGGT form a second cluster at $\sim$10\degree{} rotation error: functional but substantially less accurate. The remaining models (NoPo4D, Fast3R, MonST3R, Pow3R) all exceed 20\degree{} rotation error and effectively fail on this dataset.
 
 Two structural patterns emerge from these results. First, N-view joint architectures (Pi3X, MapAnything, VGGT) consistently outperform pairwise models, confirming that joint multi-view reasoning is essential when inter-camera overlap is minimal---pairwise models cannot propagate geometric constraints across views that share no visual content. Second, the co-location metric reveals differences in structural understanding that are masked by aggregate error: Pi3X correctly infers that cameras C2 and C3 share a mounting pole (distance 0.088), while VGGT (2.011) and Fast3R (3.183) place them far apart.
 
-Notably, Pi3X is one of only three models that support pose conditioning (Table~\ref{tab:benchmark}, ``Cond.'' column)---a prerequisite for the self-refinement method developed in subsequent sections. Its combination of highest accuracy and conditioning support makes it the natural backbone. The remainder of this paper develops methods to push beyond Pi3X's $\sim$4.4\degree{} accuracy ceiling, which resists further improvement through standard geometric post-processing alone.
+Of the eight models tested, only three support pose conditioning (Table~\ref{tab:benchmark}, ``Cond.'' column): Pi3X, MapAnything, and Pow3R. Pi3 (base), despite competitive rotation accuracy, lacks a conditioning interface and thus cannot benefit from self-refinement. Pi3X combines the best overall accuracy with conditioning support, making it the natural backbone. Note that Pi3 (base) does not support conditioning despite being from the same model family---the conditioning mechanism was introduced in the Pi3X extension. The remainder of this paper develops methods to push beyond Pi3X's $\sim$4.4\degree{} accuracy ceiling, which resists further improvement through standard geometric post-processing alone.

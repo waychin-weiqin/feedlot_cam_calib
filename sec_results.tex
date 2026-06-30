@@ -21,7 +21,7 @@ Table~\ref{tab:comparison} presents the progressive improvement from raw Pi3X ou
 
 \begin{table}[t]
 \centering
-\caption{Progressive improvement from raw Pi3X through our full method. Cost is relative to a single unconditioned inference pass ($\sim$100s on an A100). Row 3 shows na\"ive self-conditioning (rotation improves but translation degrades). Row 4 introduces hybrid fusion (translation preserved). Row 5 adds MC perturbation and iteration.}
+\caption{Progressive improvement from raw Pi3X through our full method. Cost is relative to a single unconditioned inference pass ($\sim$100s on an A100). Row~3 shows na\"ive self-conditioning (rotation improves but translation degrades). Row~4 introduces hybrid fusion (translation preserved). Row~5 iterates the hybrid method twice ($M$=2, no MC perturbation---see Section~\ref{sec:ablation_S}).}
 \label{tab:comparison}
 \begin{tabular}{@{}lcccccc@{}}
 \toprule
@@ -31,7 +31,7 @@ Method & ATE$\downarrow$ & ARE$\downarrow$ & RPE$_R$$\downarrow$ & RPE$_t$$\down
 2. + Pipeline (Stage 1) & 0.161 & 4.39\degree & 6.26\degree & 0.375 & 0.000 & 1$\times$ \\
 3. + Self-Conditioning (Stage 2) & 0.166 & 3.49\degree & 4.93\degree & 0.384 & 0.000 & 2$\times$ \\
 4. + Hybrid Fusion (Stage 3) & 0.159 & 3.45\degree & 4.93\degree & 0.322 & 0.000 & 2$\times$ \\
-\textbf{5. + MC Iteration (Stage 4)} & \textbf{0.160} & \textbf{3.13\degree} & \textbf{4.57\degree} & \textbf{0.311} & \textbf{0.000} & 13$\times$ \\
+\textbf{5. + Iterated Hybrid ($M$=2)} & \textbf{0.151} & \textbf{3.19\degree} & \textbf{3.84\degree} & \textbf{0.254} & \textbf{0.000} & 3$\times$ \\
 \midrule
 \rowcolor{gray!15}
 \textit{Oracle (GT pose conditioning)} & \textit{0.097} & \textit{1.22\degree} & \textit{---} & \textit{---} & \textit{---} & 1$\times$ \\
@@ -49,8 +49,8 @@ The progressive results in Table~\ref{tab:comparison} reveal several findings.
 
 \paragraph{Hybrid fusion resolves the asymmetry.} Decoupling rotation and translation channels (row~4) achieves $3.45\degree{}$ ARE (capturing the conditioned rotation improvement) while maintaining ATE at 0.159 (preserving the unconditioned translation quality). The computational overhead is minimal: one additional conditioned inference pass ($2\times$ total cost).
 
-\paragraph{Monte Carlo iteration yields further rotation gains.} The full method (row~5) reduces ARE by an additional 9\% over single-step hybrid fusion ($3.45\degree \rightarrow 3.13\degree$) through iterative perturbation and re-estimation. The $13\times$ compute cost reflects $S=4$ MC samples over $M=2$ iterations across 91 timesteps---a cost--accuracy tradeoff appropriate for offline calibration scenarios.
+\paragraph{Iteration further improves rotation at minimal cost.} The full method (row~5) applies hybrid fusion twice ($M=2$), reducing ARE by an additional 8\% over single-step hybrid fusion ($3.45\degree \rightarrow 3.19\degree$). Notably, this uses no stochastic perturbation ($S=1$)---our ablation study (Section~\ref{sec:ablation_S}) demonstrates that Monte Carlo sampling provides no benefit in this regime due to the tight posterior. The $3\times$ total cost makes iterated hybrid fusion practical even for interactive applications.
 
-\paragraph{Aggregate improvement.} Comparing the raw model output (row~1) to the full method (row~5): ARE improves by 28\% ($4.37\degree \rightarrow 3.13\degree$), RPE rotation by 27\%, RPE translation by 21\%, and ATE by 10\%. The co-location constraint (C2C3) is satisfied exactly under pose graph optimization (rows~2--5).
+\paragraph{Aggregate improvement.} Comparing the raw model output (row~1) to the full method (row~5): ARE improves by 27\% ($4.37\degree \rightarrow 3.19\degree$), RPE rotation by 39\%, RPE translation by 36\%, and ATE by 15\%. The co-location constraint (C2C3) is satisfied exactly under pose graph optimization (rows~2--5).
 
-\paragraph{Oracle upper bound.} The final row reports Pi3X conditioned on ground truth poses, representing the best achievable accuracy given perfect conditioning. This oracle achieves ARE\,=\,1.22\degree{} and ATE\,=\,0.097---reductions of 72\% and 40\% over the unconditioned baseline. The gap between our self-refined result (3.13\degree{}) and the oracle (1.22\degree{}) quantifies the remaining headroom attributable to conditioning quality. The monotonic improvement from unconditioned ($4.39\degree$) through self-conditioned ($3.13\degree$) to oracle ($1.22\degree$) confirms that the conditioning pathway provides genuine geometric information and that our method successfully extracts a substantial fraction of the available signal without external data.
+\paragraph{Oracle upper bound.} The final row reports Pi3X conditioned on ground truth poses, representing the best achievable accuracy given perfect conditioning. This oracle achieves ARE\,=\,1.22\degree{} and ATE\,=\,0.097---reductions of 72\% and 40\% over the unconditioned baseline. The gap between our self-refined result (3.19\degree{}) and the oracle (1.22\degree{}) quantifies the remaining headroom attributable to conditioning quality. The monotonic improvement from unconditioned ($4.39\degree$) through self-conditioned ($3.19\degree$) to oracle ($1.22\degree$) confirms that the conditioning pathway provides genuine geometric information and that our method successfully extracts a substantial fraction of the available signal without external data.

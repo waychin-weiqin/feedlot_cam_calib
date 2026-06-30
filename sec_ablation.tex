@@ -93,3 +93,52 @@ Iter & Sim(3) ATE & Sim(3) ARE & Unconstrained ATE & Unconstrained ARE \\
 \end{table}
 
 The near-identical degradation trajectories confirm that translation failure is not a scale problem but a structural one: Pi3X's conditioning mechanism introduces systematic translational bias that is independent of the output's global scale. This motivates our decision to anchor translations entirely to the unconditioned source rather than attempting to correct the conditioned output.
+
+\subsection{Effect of Sample Count $S$}
+\label{sec:ablation_S}
+
+We fix $M=2$ iterations and $\sigma_R = 2\degree{}$ and vary the number of MC samples $S$ per iteration (Table~\ref{tab:s_ablation}).
+
+\begin{table}[h]
+\centering
+\caption{Effect of MC sample count $S$ on final accuracy ($M=2$, $\sigma_R=2\degree{}$). The angular standard deviation across samples measures the spread of the per-sample rotation estimates. $S=1$ (deterministic, no perturbation) achieves the lowest ARE.}
+\label{tab:s_ablation}
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+$S$ & ATE$\downarrow$ & ARE (\degree{})$\downarrow$ & Ang.\ Std (\degree{}) & Cost & Time (s) \\
+\midrule
+1 & \textbf{0.151} & \textbf{3.19} & --- & 3$\times$ & 214 \\
+2 & 0.154 & 3.43 & $<$0.01 & 5$\times$ & 429 \\
+4 & 0.156 & 3.24 & 0.38 & 9$\times$ & 899 \\
+8 & 0.154 & 3.48 & 0.55 & 17$\times$ & 1714 \\
+16 & 0.152 & 3.41 & 0.58 & 33$\times$ & 3430 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Counter to the theoretical prediction that averaging $S$ samples should reduce variance as $O(1/\sqrt{S})$, increasing $S$ provides no improvement---and in most cases slightly degrades---ARE relative to $S=1$. The angular standard deviation across MC samples is very small ($<$1\degree{} for all $S$), confirming that the model's posterior under our conditioning regime is tightly concentrated around a single mode. In this regime, stochastic perturbation adds noise to the conditioning signal without exploring meaningfully different solutions, and the Fréchet mean over perturbed outputs is slightly less accurate than the single deterministic conditioned pass.
+
+This finding revises our earlier recommendation: for this dataset, the optimal configuration is $S=1$ (no perturbation), $M=2$ iterations, yielding ARE~=~3.19\degree{} at only 3$\times$ the cost of a single unconditioned pass---a 27\% rotation improvement with minimal compute overhead.
+
+\subsection{Weighting Strategy for Sample Aggregation}
+\label{sec:ablation_weighting}
+
+Given that MC sampling provides marginal benefit, we test whether non-uniform weighting can extract better estimates from multi-sample runs ($S=8$, $M=1$). Table~\ref{tab:weighting} compares four weighting strategies.
+
+\begin{table}[h]
+\centering
+\caption{Weighting strategies for MC sample aggregation ($S=8$, $M=1$). All strategies produce near-identical results, confirming that per-sample differences are negligible.}
+\label{tab:weighting}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Strategy & ATE$\downarrow$ & ARE (\degree{})$\downarrow$ & RPE$_R$ (\degree{})$\downarrow$ & RPE$_t$$\downarrow$ \\
+\midrule
+Equal weight (baseline) & 0.152 & 4.06 & 5.06 & 0.398 \\
+Confidence-weighted & 0.152 & 4.06 & 5.07 & 0.398 \\
+Inverse-variance & 0.152 & 4.04 & 5.05 & 0.397 \\
+Robust reweighted & 0.152 & 4.04 & 5.06 & 0.397 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All four strategies produce functionally identical results (ARE differences $<$0.02\degree{}). This confirms the finding from Section~\ref{sec:ablation_S}: the posterior is unimodal and tightly concentrated, so all samples carry essentially equal information regardless of their Pi3X confidence score or internal consistency. The equal-weight assumption is not a limiting approximation in this regime---the limitation is that multiple samples provide no additional information beyond a single pass.

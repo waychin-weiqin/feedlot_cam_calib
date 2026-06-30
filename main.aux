@@ -34,13 +34,13 @@
 \citation{hartley2013}
 \citation{chatterjee2018}
 \citation{moulon2013}
-\citation{sun2020}
-\citation{godard2019}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.2}\protected@file@percent }
 \newlabel{sec:related}{{2}{2}{Related Work}{section.2}{}}
 \@writefile{toc}{\contentsline {paragraph}{Learned multi-view geometry.}{2}{section*.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Multi-camera calibration.}{2}{section*.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Pose graph optimization.}{2}{section*.3}\protected@file@percent }
+\citation{sun2020}
+\citation{godard2019}
 \citation{besl1992}
 \citation{triggs2000}
 \citation{song2021}
@@ -51,42 +51,42 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3}Foundation Geometry Model Benchmark}{3}{section.3}\protected@file@percent }
 \newlabel{sec:benchmark}{{3}{3}{Foundation Geometry Model Benchmark}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Experimental Protocol}{3}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Results}{3}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Analysis}{3}{subsection.3.3}\protected@file@percent }
-\citation{umeyama1991}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Foundation geometry model benchmark on our wide-baseline, feature-adversarial dataset. Models are grouped by type (N-view joint vs.\ pairwise with post-hoc alignment) and ranked by ATE within each group. ``Cond.'' indicates whether the model accepts pose/intrinsic priors as conditioning input---a prerequisite for our self-refinement method. All metrics use Sim(3)-aligned predictions; C2C3 measures co-located camera consistency. Pairwise models use only 20 timesteps due to computational cost.}}{4}{table.1}\protected@file@percent }
 \newlabel{tab:benchmark}{{1}{4}{Foundation geometry model benchmark on our wide-baseline, feature-adversarial dataset. Models are grouped by type (N-view joint vs.\ pairwise with post-hoc alignment) and ranked by ATE within each group. ``Cond.'' indicates whether the model accepts pose/intrinsic priors as conditioning input---a prerequisite for our self-refinement method. All metrics use Sim(3)-aligned predictions; C2C3 measures co-located camera consistency. Pairwise models use only 20 timesteps due to computational cost}{table.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Method}{4}{section.4}\protected@file@percent }
-\newlabel{sec:method}{{4}{4}{Method}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Preliminaries: Geometric Post-Processing (Stage 1)}{4}{subsection.4.1}\protected@file@percent }
-\newlabel{sec:stage1}{{4.1}{4}{Preliminaries: Geometric Post-Processing (Stage 1)}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Results}{4}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Analysis}{4}{subsection.3.3}\protected@file@percent }
+\citation{umeyama1991}
 \citation{moakher2002}
 \citation{hartley2013}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Method}{5}{section.4}\protected@file@percent }
+\newlabel{sec:method}{{4}{5}{Method}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Preliminaries: Geometric Post-Processing (Stage 1)}{5}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:stage1}{{4.1}{5}{Preliminaries: Geometric Post-Processing (Stage 1)}{subsection.4.1}{}}
 \@writefile{toc}{\contentsline {paragraph}{Gauge fixing.}{5}{section*.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Outlier rejection.}{5}{section*.8}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Pose graph optimization.}{5}{section*.9}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Residual error analysis.}{5}{section*.10}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Self-Conditioned Inference (Stage 2)}{5}{subsection.4.2}\protected@file@percent }
 \newlabel{sec:stage2}{{4.2}{5}{Self-Conditioned Inference (Stage 2)}{subsection.4.2}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Iterated Hybrid MC Refinement}}{6}{algorithm.1}\protected@file@percent }
-\newlabel{alg:itermc}{{1}{6}{Monte Carlo Iterative Refinement (Stage 4)}{algorithm.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Decoupled Hybrid Fusion (Stage 3)}{6}{subsection.4.3}\protected@file@percent }
 \newlabel{sec:stage3}{{4.3}{6}{Decoupled Hybrid Fusion (Stage 3)}{subsection.4.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Monte Carlo Iterative Refinement (Stage 4)}{6}{subsection.4.4}\protected@file@percent }
 \newlabel{sec:stage4}{{4.4}{6}{Monte Carlo Iterative Refinement (Stage 4)}{subsection.4.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Design choices.}{7}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Design choices.}{6}{section*.11}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Iterated Hybrid MC Refinement}}{7}{algorithm.1}\protected@file@percent }
+\newlabel{alg:itermc}{{1}{7}{Monte Carlo Iterative Refinement (Stage 4)}{algorithm.1}{}}
 \@writefile{toc}{\contentsline {paragraph}{Probabilistic interpretation.}{7}{section*.12}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5}Theoretical Analysis}{7}{section.5}\protected@file@percent }
 \newlabel{sec:theory}{{5}{7}{Theoretical Analysis}{section.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Contraction Mapping on SO(3)}{7}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Empirical measurement.}{7}{section*.13}\protected@file@percent }
 \citation{vincent2011}
-\citation{song2021}
+\@writefile{toc}{\contentsline {paragraph}{Empirical measurement.}{8}{section*.13}\protected@file@percent }
 \newlabel{eq:fixed_point}{{7}{8}{Empirical measurement}{equation.5.7}{}}
 \@writefile{toc}{\contentsline {paragraph}{Basin of attraction.}{8}{section*.14}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Failure of Contraction for Translation}{8}{subsection.5.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Monte Carlo Perturbation as Posterior Sampling}{8}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Remark.}{8}{section*.15}\protected@file@percent }
+\citation{song2021}
+\@writefile{toc}{\contentsline {paragraph}{Remark.}{9}{section*.15}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Connection to Iterative Denoising}{9}{subsection.5.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {6}Results}{9}{section.6}\protected@file@percent }
 \newlabel{sec:results}{{6}{9}{Results}{section.6}{}}
@@ -94,17 +94,17 @@
 \@writefile{toc}{\contentsline {paragraph}{Dataset.}{9}{section*.16}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Evaluation metrics.}{9}{section*.17}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Comprehensive Comparison}{9}{subsection.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Analysis}{9}{subsection.6.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Rotation error is not reducible by classical aggregation.}{9}{section*.18}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Progressive improvement from raw Pi3X through our full method. Cost is relative to a single unconditioned inference pass ($\sim $100s on an A100). Row 3 shows na\"ive self-conditioning (rotation improves but translation degrades). Row 4 introduces hybrid fusion (translation preserved). Row 5 adds MC perturbation and iteration.}}{10}{table.2}\protected@file@percent }
-\newlabel{tab:comparison}{{2}{10}{Progressive improvement from raw Pi3X through our full method. Cost is relative to a single unconditioned inference pass ($\sim $100s on an A100). Row 3 shows na\"ive self-conditioning (rotation improves but translation degrades). Row 4 introduces hybrid fusion (translation preserved). Row 5 adds MC perturbation and iteration}{table.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Progressive improvement from raw Pi3X through our full method. Cost is relative to a single unconditioned inference pass ($\sim $100s on an A100). Row\nobreakspace  {}3 shows na\"ive self-conditioning (rotation improves but translation degrades). Row\nobreakspace  {}4 introduces hybrid fusion (translation preserved). Row\nobreakspace  {}5 iterates the hybrid method twice ($M$=2, no MC perturbation---see Section\nobreakspace  {}\ref  {sec:ablation_S}).}}{10}{table.2}\protected@file@percent }
+\newlabel{tab:comparison}{{2}{10}{Progressive improvement from raw Pi3X through our full method. Cost is relative to a single unconditioned inference pass ($\sim $100s on an A100). Row~3 shows na\"ive self-conditioning (rotation improves but translation degrades). Row~4 introduces hybrid fusion (translation preserved). Row~5 iterates the hybrid method twice ($M$=2, no MC perturbation---see Section~\ref {sec:ablation_S})}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Analysis}{10}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Rotation error is not reducible by classical aggregation.}{10}{section*.18}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Self-conditioning exhibits rotation--translation asymmetry.}{10}{section*.19}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Hybrid fusion resolves the asymmetry.}{10}{section*.20}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Monte Carlo iteration yields further rotation gains.}{10}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Iteration further improves rotation at minimal cost.}{10}{section*.21}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Aggregate improvement.}{10}{section*.22}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Oracle upper bound.}{10}{section*.23}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7}Ablation Studies}{10}{section.7}\protected@file@percent }
-\newlabel{sec:ablation}{{7}{10}{Ablation Studies}{section.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Ablation Studies}{11}{section.7}\protected@file@percent }
+\newlabel{sec:ablation}{{7}{11}{Ablation Studies}{section.7}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Effect of Hybrid Decoupling}{11}{subsection.7.1}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Na\"ive vs.\ hybrid iterative refinement. Na\"ive iteration improves rotation at the cost of translation; hybrid fusion achieves superior rotation improvement while preserving translation accuracy.}}{11}{table.3}\protected@file@percent }
 \newlabel{tab:naive_vs_hybrid}{{3}{11}{Na\"ive vs.\ hybrid iterative refinement. Na\"ive iteration improves rotation at the cost of translation; hybrid fusion achieves superior rotation improvement while preserving translation accuracy}{table.3}{}}
@@ -112,20 +112,28 @@
 \newlabel{sec:noise_sensitivity}{{7.2}{11}{Sensitivity to Conditioning Quality}{subsection.7.2}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Effect of conditioning pose quality on output accuracy. Translation noise is isotropic Gaussian in scene coordinates. Beyond $\sim $10\ensuremath  {^\circ }{} rotation noise, conditioning becomes counterproductive and the model diverges.}}{11}{table.4}\protected@file@percent }
 \newlabel{tab:noise_robustness}{{4}{11}{Effect of conditioning pose quality on output accuracy. Translation noise is isotropic Gaussian in scene coordinates. Beyond $\sim $10\degree {} rotation noise, conditioning becomes counterproductive and the model diverges}{table.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Convergence Behaviour}{11}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Convergence Behaviour}{12}{subsection.7.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Convergence of iterated hybrid MC refinement ($S=4$ samples per iteration). Iteration\nobreakspace  {}2 achieves the minimum ARE; iteration\nobreakspace  {}4 produces an orientation flip in the rotation estimate.}}{12}{table.5}\protected@file@percent }
 \newlabel{tab:convergence}{{5}{12}{Convergence of iterated hybrid MC refinement ($S=4$ samples per iteration). Iteration~2 achieves the minimum ARE; iteration~4 produces an orientation flip in the rotation estimate}{table.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Inefficacy of Sim(3) Re-alignment}{12}{subsection.7.4}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Sim(3)-constrained vs.\ unconstrained na\"ive iteration. Constraining scale does not prevent translation degradation, confirming that the failure mechanism is systematic conditioning bias rather than scale drift.}}{12}{table.6}\protected@file@percent }
 \newlabel{tab:sim3}{{6}{12}{Sim(3)-constrained vs.\ unconstrained na\"ive iteration. Constraining scale does not prevent translation degradation, confirming that the failure mechanism is systematic conditioning bias rather than scale drift}{table.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Discussion}{12}{section.8}\protected@file@percent }
-\newlabel{sec:discussion}{{8}{12}{Discussion}{section.8}{}}
-\@writefile{toc}{\contentsline {paragraph}{Practical deployment.}{12}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}Effect of Sample Count $S$}{13}{subsection.7.5}\protected@file@percent }
+\newlabel{sec:ablation_S}{{7.5}{13}{Effect of Sample Count $S$}{subsection.7.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Effect of MC sample count $S$ on final accuracy ($M=2$, $\sigma _R=2\ensuremath  {^\circ }{}$). The angular standard deviation across samples measures the spread of the per-sample rotation estimates. $S=1$ (deterministic, no perturbation) achieves the lowest ARE.}}{13}{table.7}\protected@file@percent }
+\newlabel{tab:s_ablation}{{7}{13}{Effect of MC sample count $S$ on final accuracy ($M=2$, $\sigma _R=2\degree {}$). The angular standard deviation across samples measures the spread of the per-sample rotation estimates. $S=1$ (deterministic, no perturbation) achieves the lowest ARE}{table.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.6}Weighting Strategy for Sample Aggregation}{13}{subsection.7.6}\protected@file@percent }
+\newlabel{sec:ablation_weighting}{{7.6}{13}{Weighting Strategy for Sample Aggregation}{subsection.7.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Weighting strategies for MC sample aggregation ($S=8$, $M=1$). All strategies produce near-identical results, confirming that per-sample differences are negligible.}}{13}{table.8}\protected@file@percent }
+\newlabel{tab:weighting}{{8}{13}{Weighting strategies for MC sample aggregation ($S=8$, $M=1$). All strategies produce near-identical results, confirming that per-sample differences are negligible}{table.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Discussion}{14}{section.8}\protected@file@percent }
+\newlabel{sec:discussion}{{8}{14}{Discussion}{section.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{Practical deployment.}{14}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Generality of the framework.}{14}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Limitations.}{14}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Future work.}{14}{section*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{14}{section.9}\protected@file@percent }
+\newlabel{sec:conclusion}{{9}{14}{Conclusion}{section.9}{}}
 \bibstyle{plain}
 \bibdata{references}
-\@writefile{toc}{\contentsline {paragraph}{Generality of the framework.}{13}{section*.25}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Limitations.}{13}{section*.26}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Future work.}{13}{section*.27}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{13}{section.9}\protected@file@percent }
-\newlabel{sec:conclusion}{{9}{13}{Conclusion}{section.9}{}}
-\gdef \@abspage@last{13}
+\gdef \@abspage@last{15}
