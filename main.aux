@@ -52,17 +52,17 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3}Foundation Geometry Model Benchmark}{3}{section.3}\protected@file@percent }
 \newlabel{sec:benchmark}{{3}{3}{Foundation Geometry Model Benchmark}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Experimental Protocol}{3}{subsection.3.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Foundation geometry model benchmark on our wide-baseline, feature-adversarial dataset. Models are ranked by ATE. ``Type'' indicates whether the model processes all views jointly (N-view) or in pairs with post-hoc global alignment. All metrics use Sim(3)-aligned predictions; co-location distances (C2C3, C5C6) measure structural consistency. Pairwise models (MonST3R, Pow3R) use only 20 timesteps due to computational cost.}}{4}{table.1}\protected@file@percent }
-\newlabel{tab:benchmark}{{1}{4}{Foundation geometry model benchmark on our wide-baseline, feature-adversarial dataset. Models are ranked by ATE. ``Type'' indicates whether the model processes all views jointly (N-view) or in pairs with post-hoc global alignment. All metrics use Sim(3)-aligned predictions; co-location distances (C2C3, C5C6) measure structural consistency. Pairwise models (MonST3R, Pow3R) use only 20 timesteps due to computational cost}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Foundation geometry model benchmark on our wide-baseline, feature-adversarial dataset. Models are grouped by type (N-view joint vs.\ pairwise with post-hoc alignment) and ranked by ATE within each group. ``Cond.'' indicates whether the model accepts pose/intrinsic priors as conditioning input---a prerequisite for our self-refinement method. All metrics use Sim(3)-aligned predictions; C2C3 measures co-located camera consistency. Pairwise models use only 20 timesteps due to computational cost.}}{4}{table.1}\protected@file@percent }
+\newlabel{tab:benchmark}{{1}{4}{Foundation geometry model benchmark on our wide-baseline, feature-adversarial dataset. Models are grouped by type (N-view joint vs.\ pairwise with post-hoc alignment) and ranked by ATE within each group. ``Cond.'' indicates whether the model accepts pose/intrinsic priors as conditioning input---a prerequisite for our self-refinement method. All metrics use Sim(3)-aligned predictions; C2C3 measures co-located camera consistency. Pairwise models use only 20 timesteps due to computational cost}{table.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Results}{4}{subsection.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Analysis}{4}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Tier 1: Pi3X.}{4}{section*.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Tier 2: MapAnything, VGGT.}{4}{section*.8}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Tier 3: Remaining models.}{4}{section*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Key observations.}{4}{section*.10}\protected@file@percent }
 \citation{umeyama1991}
 \citation{moakher2002}
 \citation{hartley2013}
+\@writefile{toc}{\contentsline {paragraph}{Key observations.}{5}{section*.10}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Method}{5}{section.4}\protected@file@percent }
 \newlabel{sec:method}{{4}{5}{Method}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Preliminaries: Geometric Post-Processing (Stage 1)}{5}{subsection.4.1}\protected@file@percent }
@@ -70,21 +70,21 @@
 \@writefile{toc}{\contentsline {paragraph}{Gauge fixing.}{5}{section*.11}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Outlier rejection.}{5}{section*.12}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Pose graph optimization.}{5}{section*.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Motivation for learned refinement.}{5}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Motivation for learned refinement.}{6}{section*.14}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Self-Conditioned Inference (Stage 2)}{6}{subsection.4.2}\protected@file@percent }
 \newlabel{sec:stage2}{{4.2}{6}{Self-Conditioned Inference (Stage 2)}{subsection.4.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Decoupled Hybrid Fusion (Stage 3)}{6}{subsection.4.3}\protected@file@percent }
 \newlabel{sec:stage3}{{4.3}{6}{Decoupled Hybrid Fusion (Stage 3)}{subsection.4.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Monte Carlo Iterative Refinement (Stage 4)}{6}{subsection.4.4}\protected@file@percent }
-\newlabel{sec:stage4}{{4.4}{6}{Monte Carlo Iterative Refinement (Stage 4)}{subsection.4.4}{}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Iterated Hybrid MC Refinement}}{7}{algorithm.1}\protected@file@percent }
 \newlabel{alg:itermc}{{1}{7}{Monte Carlo Iterative Refinement (Stage 4)}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Monte Carlo Iterative Refinement (Stage 4)}{7}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:stage4}{{4.4}{7}{Monte Carlo Iterative Refinement (Stage 4)}{subsection.4.4}{}}
 \@writefile{toc}{\contentsline {paragraph}{Design choices.}{7}{section*.15}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Probabilistic interpretation.}{7}{section*.16}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5}Theoretical Analysis}{7}{section.5}\protected@file@percent }
 \newlabel{sec:theory}{{5}{7}{Theoretical Analysis}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Contraction Mapping on SO(3)}{7}{subsection.5.1}\protected@file@percent }
 \citation{vincent2011}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Contraction Mapping on SO(3)}{8}{subsection.5.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Empirical measurement.}{8}{section*.17}\protected@file@percent }
 \newlabel{eq:fixed_point}{{7}{8}{Empirical measurement}{equation.5.7}{}}
 \@writefile{toc}{\contentsline {paragraph}{Basin of attraction.}{8}{section*.18}\protected@file@percent }
@@ -107,31 +107,30 @@
 \@writefile{toc}{\contentsline {paragraph}{Hybrid fusion resolves the tradeoff.}{10}{section*.24}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{MC iteration pushes rotation further.}{11}{section*.25}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Overall improvement.}{11}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Oracle upper bound confirms the mechanism.}{11}{section*.27}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {7}Ablation Studies}{11}{section.7}\protected@file@percent }
 \newlabel{sec:ablation}{{7}{11}{Ablation Studies}{section.7}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Why Hybrid Fusion is Necessary}{11}{subsection.7.1}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Na\"ive vs.\ hybrid iterative refinement over 5 iterations.}}{11}{table.3}\protected@file@percent }
 \newlabel{tab:naive_vs_hybrid}{{3}{11}{Na\"ive vs.\ hybrid iterative refinement over 5 iterations}{table.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Noise Robustness of Pose Conditioning}{11}{subsection.7.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Effect of conditioning pose quality on Pi3X output (after full pipeline). Translation noise is isotropic Gaussian in the scene coordinate system.}}{11}{table.4}\protected@file@percent }
-\newlabel{tab:noise_robustness}{{4}{11}{Effect of conditioning pose quality on Pi3X output (after full pipeline). Translation noise is isotropic Gaussian in the scene coordinate system}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Effect of conditioning pose quality on Pi3X output (after full pipeline). Translation noise is isotropic Gaussian in the scene coordinate system.}}{12}{table.4}\protected@file@percent }
+\newlabel{tab:noise_robustness}{{4}{12}{Effect of conditioning pose quality on Pi3X output (after full pipeline). Translation noise is isotropic Gaussian in the scene coordinate system}{table.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Convergence Behavior}{12}{subsection.7.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Convergence of iterated hybrid MC refinement (4 samples per iteration).}}{12}{table.5}\protected@file@percent }
 \newlabel{tab:convergence}{{5}{12}{Convergence of iterated hybrid MC refinement (4 samples per iteration)}{table.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Sim(3) Constraint Does Not Help}{12}{subsection.7.4}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Sim(3)-constrained vs.\ na\"ive iteration (5 iterations).}}{12}{table.6}\protected@file@percent }
 \newlabel{tab:sim3}{{6}{12}{Sim(3)-constrained vs.\ na\"ive iteration (5 iterations)}{table.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Discussion}{12}{section.8}\protected@file@percent }
-\newlabel{sec:discussion}{{8}{12}{Discussion}{section.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Practical Recommendations}{12}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Discussion}{13}{section.8}\protected@file@percent }
+\newlabel{sec:discussion}{{8}{13}{Discussion}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Practical Recommendations}{13}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Limitations}{13}{subsection.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Future Directions}{13}{subsection.8.3}\protected@file@percent }
 \bibstyle{plain}
 \bibdata{references}
 \bibcite{besl1992}{1}
 \bibcite{chatterjee2018}{2}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Limitations}{13}{subsection.8.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Future Directions}{13}{subsection.8.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{13}{section.9}\protected@file@percent }
-\newlabel{sec:conclusion}{{9}{13}{Conclusion}{section.9}{}}
 \bibcite{cipolla1999}{3}
 \bibcite{godard2019}{4}
 \bibcite{hartley2013}{5}
@@ -142,6 +141,8 @@
 \bibcite{sun2020}{10}
 \bibcite{triggs2000}{11}
 \bibcite{vincent2011}{12}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{14}{section.9}\protected@file@percent }
+\newlabel{sec:conclusion}{{9}{14}{Conclusion}{section.9}{}}
 \bibcite{vggt}{13}
 \bibcite{dust3r}{14}
 \bibcite{pi3x}{15}

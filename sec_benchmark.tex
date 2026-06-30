@@ -19,19 +19,22 @@ Ground truth poses are obtained from COLMAP applied to a static scene capture (n
 
 \begin{table}[t]
 \centering
-\caption{Foundation geometry model benchmark on our wide-baseline, feature-adversarial dataset. Models are ranked by ATE. ``Type'' indicates whether the model processes all views jointly (N-view) or in pairs with post-hoc global alignment. All metrics use Sim(3)-aligned predictions; co-location distances (C2C3, C5C6) measure structural consistency. Pairwise models (MonST3R, Pow3R) use only 20 timesteps due to computational cost.}
+\caption{Foundation geometry model benchmark on our wide-baseline, feature-adversarial dataset. Models are grouped by type (N-view joint vs.\ pairwise with post-hoc alignment) and ranked by ATE within each group. ``Cond.'' indicates whether the model accepts pose/intrinsic priors as conditioning input---a prerequisite for our self-refinement method. All metrics use Sim(3)-aligned predictions; C2C3 measures co-located camera consistency. Pairwise models use only 20 timesteps due to computational cost.}
 \label{tab:benchmark}
-\begin{tabular}{@{}llccccccc@{}}
+\begin{tabular}{@{}llcccccccc@{}}
 \toprule
-Model & Venue & Type & ATE$\downarrow$ & ARE$\downarrow$ & RPE$_R$$\downarrow$ & RPE$_t$$\downarrow$ & C2C3$\downarrow$ & Time (s) \\
+Model & Venue & Type & Cond. & ATE$\downarrow$ & ARE$\downarrow$ & RPE$_R$$\downarrow$ & RPE$_t$$\downarrow$ & C2C3$\downarrow$ & Time (s) \\
 \midrule
-\textbf{Pi3X} & CVPR'25 & N-view & \textbf{0.177} & \textbf{4.37\degree} & \textbf{6.26\degree} & \textbf{0.39} & \textbf{0.088} & 106 \\
-MapAnything & CVPR'25 & N-view & 0.627 & 9.17\degree & 14.19\degree & 0.93 & 0.313 & 86 \\
-VGGT & CVPR'25 & N-view & 1.248 & 10.48\degree & 12.82\degree & 1.55 & 2.011 & 75 \\
-Pow3R & CVPR'25 & Pairwise & 1.835 & 180\degree & 28.53\degree & 7.24 & 0.218 & 497 \\
-NoPo4D & arXiv'25 & N-view & 2.556 & 62.06\degree & 77.01\degree & 3.17 & 0.627 & 214 \\
-MonST3R & ICLR'25 & Pairwise & 2.607 & 47.24\degree & 23.87\degree & 3.56 & 0.111 & 1492 \\
-Fast3R & CVPR'25 & N-view & 2.743 & 96.64\degree & 102.88\degree & 4.36 & 3.183 & 460 \\
+\multicolumn{10}{@{}l}{\textit{N-view (joint)}} \\[2pt]
+\textbf{Pi3X} & CVPR'25 & N-view & \checkmark & \textbf{0.177} & \textbf{4.37\degree} & \textbf{6.26\degree} & \textbf{0.39} & \textbf{0.088} & 106 \\
+MapAnything & CVPR'25 & N-view & --- & 0.627 & 9.17\degree & 14.19\degree & 0.93 & 0.313 & 86 \\
+VGGT & CVPR'25 & N-view & \checkmark & 1.248 & 10.48\degree & 12.82\degree & 1.55 & 2.011 & 75 \\
+NoPo4D & arXiv'25 & N-view & --- & 2.556 & 62.06\degree & 77.01\degree & 3.17 & 0.627 & 214 \\
+Fast3R & CVPR'25 & N-view & --- & 2.743 & 96.64\degree & 102.88\degree & 4.36 & 3.183 & 460 \\
+\midrule
+\multicolumn{10}{@{}l}{\textit{Pairwise (post-hoc alignment)}} \\[2pt]
+Pow3R & CVPR'25 & Pairwise & --- & 1.835 & 180\degree & 28.53\degree & 7.24 & 0.218 & 497 \\
+MonST3R & ICLR'25 & Pairwise & --- & 2.607 & 47.24\degree & 23.87\degree & 3.56 & 0.111 & 1492 \\
 \bottomrule
 \end{tabular}
 \end{table}

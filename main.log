@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.25)  30 JUN 2026 10:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.25)  30 JUN 2026 11:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -100,32 +100,70 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2021/10/31 v2.13 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 227.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+)
+(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
+\col@sep=\dimen148
+\ar@mcellbox=\box52
+\extrarowheight=\dimen149
+\NC@list=\toks23
+\extratabsurround=\skip52
+\backup@length=\skip53
+\ar@cellbox=\box53
+)
+\everycr=\toks24
+\minrowclearance=\skip54
+)
+\rownum=\count271
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1352.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1356.
+Package xcolor Info: Model `RGB' extended on input line 1368.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1370.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1371.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1374.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1375.
+)
 (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen148
-\lightrulewidth=\dimen149
-\cmidrulewidth=\dimen150
-\belowrulesep=\dimen151
-\belowbottomsep=\dimen152
-\aboverulesep=\dimen153
-\abovetopsep=\dimen154
-\cmidrulesep=\dimen155
-\cmidrulekern=\dimen156
-\defaultaddspace=\dimen157
-\@cmidla=\count271
-\@cmidlb=\count272
-\@aboverulesep=\dimen158
-\@belowrulesep=\dimen159
-\@thisruleclass=\count273
-\@lastruleclass=\count274
-\@thisrulewidth=\dimen160
+\heavyrulewidth=\dimen150
+\lightrulewidth=\dimen151
+\cmidrulewidth=\dimen152
+\belowrulesep=\dimen153
+\belowbottomsep=\dimen154
+\aboverulesep=\dimen155
+\abovetopsep=\dimen156
+\cmidrulesep=\dimen157
+\cmidrulekern=\dimen158
+\defaultaddspace=\dimen159
+\@cmidla=\count272
+\@cmidlb=\count273
+\@aboverulesep=\dimen160
+\@belowrulesep=\dimen161
+\@thisruleclass=\count274
+\@lastruleclass=\count275
+\@thisrulewidth=\dimen162
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks23
+\KV@toks@=\toks25
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
@@ -137,12 +175,9 @@ Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
-
-(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
-))
-\Gin@req@height=\dimen161
-\Gin@req@width=\dimen162
+)
+\Gin@req@height=\dimen163
+\Gin@req@width=\dimen164
 )
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2021-06-07 v7.00m Hypertext links for LaTeX
@@ -185,9 +220,9 @@ Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 (/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
 )
-\@linkdim=\dimen163
-\Hy@linkcounter=\count275
-\Hy@pagecounter=\count276
+\@linkdim=\dimen165
+\Hy@linkcounter=\count276
+\Hy@pagecounter=\count277
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
@@ -204,7 +239,7 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 (/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count277
+\Hy@SavedSpaceFactor=\count278
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
@@ -218,14 +253,14 @@ Package hyperref Info: Plain pages OFF on input line 4207.
 Package hyperref Info: Backreferencing OFF on input line 4212.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4445.
-\c@Hy@tempcnt=\count278
+\c@Hy@tempcnt=\count279
 
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4804.
-\XeTeXLinkMargin=\dimen164
+\XeTeXLinkMargin=\dimen166
 
 (/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -234,9 +269,9 @@ Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count279
-\Field@Width=\dimen165
-\Fld@charsize=\dimen166
+\Fld@menulength=\count280
+\Field@Width=\dimen167
+\Fld@charsize=\dimen168
 Package hyperref Info: Hyper figures OFF on input line 6076.
 Package hyperref Info: Link nesting OFF on input line 6081.
 Package hyperref Info: Hyper index ON on input line 6084.
@@ -251,9 +286,9 @@ LaTeX Info: Redefining \pageref on input line 6150.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count280
-\c@Item=\count281
-\c@Hfootnote=\count282
+\Hy@abspage=\count281
+\c@Item=\count282
+\c@Hfootnote=\count283
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
@@ -265,8 +300,8 @@ Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-\Fld@listcount=\count283
-\c@bookmark@seq@number=\count284
+\Fld@listcount=\count284
+\c@bookmark@seq@number=\count285
 
 (/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
@@ -277,7 +312,7 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 86.
 )
-\Hy@SectionHShift=\skip52
+\Hy@SectionHShift=\skip55
 )
 (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
@@ -285,18 +320,18 @@ Package: geometry 2020/01/02 v5.9 Page Geometry
 (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count285
-\Gm@cntv=\count286
-\c@Gm@tempcnt=\count287
-\Gm@bindingoffset=\dimen167
-\Gm@wd@mp=\dimen168
-\Gm@odd@mp=\dimen169
-\Gm@even@mp=\dimen170
-\Gm@layoutwidth=\dimen171
-\Gm@layoutheight=\dimen172
-\Gm@layouthoffset=\dimen173
-\Gm@layoutvoffset=\dimen174
-\Gm@dimlist=\toks24
+\Gm@cnth=\count286
+\Gm@cntv=\count287
+\c@Gm@tempcnt=\count288
+\Gm@bindingoffset=\dimen169
+\Gm@wd@mp=\dimen170
+\Gm@odd@mp=\dimen171
+\Gm@even@mp=\dimen172
+\Gm@layoutwidth=\dimen173
+\Gm@layoutheight=\dimen174
+\Gm@layouthoffset=\dimen175
+\Gm@layoutvoffset=\dimen176
+\Gm@dimlist=\toks26
 )
 (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
@@ -304,69 +339,69 @@ nment
 
 (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count288
-\float@exts=\toks25
-\float@box=\box52
-\@float@everytoks=\toks26
-\@floatcapt=\box53
+\c@float@type=\count289
+\float@exts=\toks27
+\float@box=\box54
+\@float@everytoks=\toks28
+\@floatcapt=\box55
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\@float@every@algorithm=\toks27
-\c@algorithm=\count289
+\@float@every@algorithm=\toks29
+\c@algorithm=\count290
 )
 (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithmic.sty
 Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
-\c@ALC@unique=\count290
-\c@ALC@line=\count291
-\c@ALC@rem=\count292
-\c@ALC@depth=\count293
-\ALC@tlm=\skip53
-\algorithmicindent=\skip54
+\c@ALC@unique=\count291
+\c@ALC@line=\count292
+\c@ALC@rem=\count293
+\c@ALC@depth=\count294
+\ALC@tlm=\skip56
+\algorithmicindent=\skip57
 )
 (/usr/share/texlive/texmf-dist/tex/latex/was/gensymb.sty
 Package: gensymb 2003/07/02 v1.0 (WaS)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count294
-\l__pdf_internal_box=\box54
+\l__color_backend_stack_int=\count295
+\l__pdf_internal_box=\box56
 )
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count295
-\scratchdimen=\dimen175
-\scratchbox=\box55
-\nofMPsegments=\count296
-\nofMParguments=\count297
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count298
-\MPscratchDim=\dimen176
-\MPnumerator=\count299
-\makeMPintoPDFobject=\count300
-\everyMPtoPDFconversion=\toks29
+\scratchcounter=\count296
+\scratchdimen=\dimen177
+\scratchbox=\box57
+\nofMPsegments=\count297
+\nofMParguments=\count298
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count299
+\MPscratchDim=\dimen178
+\MPnumerator=\count300
+\makeMPintoPDFobject=\count301
+\everyMPtoPDFconversion=\toks31
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -376,7 +411,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 18.
+Package hyperref Info: Link coloring OFF on input line 19.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
@@ -387,11 +422,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count301
+\c@section@level=\count302
 )
-LaTeX Info: Redefining \ref on input line 18.
-LaTeX Info: Redefining \pageref on input line 18.
-LaTeX Info: Redefining \nameref on input line 18.
+LaTeX Info: Redefining \ref on input line 19.
+LaTeX Info: Redefining \pageref on input line 19.
+LaTeX Info: Redefining \nameref on input line 19.
 
 (./main.out) (./main.out)
 \@outlinefile=\write3
@@ -432,23 +467,23 @@ LaTeX Info: Redefining \nameref on input line 18.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \celsius on input line 18.
-Package gensymb Info: Faking symbols for \degree and \celsius on input line 18.
+LaTeX Info: Redefining \celsius on input line 19.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 19.
 
 
 Package gensymb Warning: Not defining \perthousand.
 
-LaTeX Info: Redefining \ohm on input line 18.
-Package gensymb Info: Using \Omega for \ohm on input line 18.
+LaTeX Info: Redefining \ohm on input line 19.
+Package gensymb Info: Using \Omega for \ohm on input line 19.
 
 Package gensymb Warning: Not defining \micro.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 20.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 21.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 20.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 21.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -462,12 +497,17 @@ Overfull \hbox (13.89749pt too wide) in paragraph at lines 6--7
 cal ex-trin-sic cal-i-bra-tion uses phys-i-cal tar-gets (checker-boards [[]]),
  []
 
-) (./sec_benchmark.tex [3] [4pdfTeX warning (ext4): destination with the same i
-dentifier (name{table.1}) has been already used, duplicate ignored
+) (./sec_benchmark.tex [3]
+Overfull \hbox (16.23235pt too wide) in paragraph at lines 24--40
+ [][] 
+ []
+
+[4pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
+as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.53     \item A
-                ll models were published in 2025, indicating that wide-basel...
+l.55     \item T
+                he co-location metric (C2C3) discriminates structural unders...
 ]) (./sec_method.tex
 
 LaTeX Warning: Citation `umeyama1991' on page 5 undefined on input line 11.
@@ -492,52 +532,57 @@ ML/cmm/m/it/10.95 T[]\OT1/cmr/m/n/10.95 )[]\OML/cmm/m/it/10.95 T[]$ \T1/cmr/m/n
 /10.95 from in-lier timesteps,
  []
 
-[5]
+[5] [6]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 64.
- [6]) (./sec_theory.tex
+) (./sec_theory.tex [7]
 LaTeX Font Info:    Trying to load font information for U+euf on input line 12.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
-) [7] [8])
+) [8])
 (./sec_results.tex [9] [10pdfTeX warning (ext4): destination with the same iden
 tifier (name{table.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.50 
-     ]) (./sec_ablation.tex [11pdfTeX warning (ext4): destination with the same
- identifier (name{table.3}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.73 \end{table}
-                pdfTeX warning (ext4): destination with the same identifier (na
-me{table.4}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.73 \end{table}
-                ]) (./sec_discussion.tex
+l.53 
+     ]) (./sec_ablation.tex
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 11.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 11.
-
-Missing character: There is no ° in font cmr10!
-[12pdfTeX warning (ext4): destination with the same identifier (name{table.5}) 
+[11pdfTeX warning (ext4): destination with the same identifier (name{table.3}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.18     \item T
-                ranslation improvement is bounded by the unconditioned basel...
+l.73 \end{table}
+                ]) (./sec_discussion.tex [12pdfTeX warning (ext4): destination 
+with the same identifier (name{table.4}) has been already used, duplicate ignor
+ed
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.8     \item \textbf
+                     {One hybrid refinement step} (Stage 3) offers the best ...
+pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.8     \item \textbf
+                     {One hybrid refinement step} (Stage 3) offers the best ...
 pdfTeX warning (ext4): destination with the same identifier (name{table.6}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.18     \item T
-                ranslation improvement is bounded by the unconditioned basel...
+l.8     \item \textbf
+                     {One hybrid refinement step} (Stage 3) offers the best ...
 ]
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 11.
+
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 11.
+
+Missing character: There is no ° in font cmr10!
 
 LaTeX Warning: Command \textdegree invalid in math mode on input line 29.
 
@@ -545,7 +590,7 @@ LaTeX Warning: Command \textdegree invalid in math mode on input line 29.
 LaTeX Warning: Command \textdegree invalid in math mode on input line 29.
 
 Missing character: There is no ° in font cmr10!
-) (./sec_conclusion.tex) (./main.bbl [13] [14]) [15] (./main.aux)
+) (./sec_conclusion.tex [13]) (./main.bbl [14]) [15] (./main.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -553,13 +598,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: F6A7ABD2A7271DD6B242B01905EB22DD;5933.
  ) 
 Here is how much of TeX's memory you used:
- 10847 strings out of 478287
- 165623 string characters out of 5849289
- 464798 words of memory out of 5000000
- 28705 multiletter control sequences out of 15000+600000
+ 11436 strings out of 478287
+ 173352 string characters out of 5849289
+ 478390 words of memory out of 5000000
+ 29279 multiletter control sequences out of 15000+600000
  489542 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,10n,63p,815b,576s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,11n,63p,1082b,578s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/share/texmf
 /fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
@@ -573,19 +618,20 @@ re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/publ
-ic/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095
-.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/tex
-mf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/publi
-c/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0900.
-pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texm
-f/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public
-/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.p
-fb>
-Output written on main.pdf (15 pages, 394237 bytes).
+nts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/publi
+c/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.
+pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texm
+f/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public
+/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0900.p
+fb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf
+/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/
+cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pf
+b>
+Output written on main.pdf (15 pages, 405400 bytes).
 PDF statistics:
- 489 PDF objects out of 1000 (max. 8388607)
- 419 compressed objects within 5 object streams
- 142 named destinations out of 1000 (max. 500000)
+ 496 PDF objects out of 1000 (max. 8388607)
+ 424 compressed objects within 5 object streams
+ 143 named destinations out of 1000 (max. 500000)
  265 words of extra memory for PDF output out of 10000 (max. 10000000)
 
