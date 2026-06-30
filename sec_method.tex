@@ -29,7 +29,7 @@ Pi3X supports multimodal conditioning: given approximate poses $\hat{T}^c$ and c
 \end{equation}
 where $f_\theta$ denotes Pi3X and $\hat{T}^c$ is the Stage~1 estimate converted to the model's input camera ordering.
 
-Applying the same geometric post-processing to $\{T_k^{c,(1)}\}$ yields a refined estimate with ARE reduced from $4.39\degree$ to $3.49\degree$ (20\% improvement) but ATE increased from 0.161 to 0.166 (3\% degradation). Iterating this process na\"ively amplifies both effects: rotation improves further (to $\sim$3.3\degree$) while translation degrades monotonically (to 0.195 ATE after 5 iterations). Section~\ref{sec:theory} provides a formal explanation: the rotation component contracts toward a fixed point on SO(3), while translations diverge due to Sim(3) scale mismatch in the conditioning pathway.
+Applying the same geometric post-processing to $\{T_k^{c,(1)}\}$ yields a refined estimate with ARE reduced from $4.39\degree$ to $3.49\degree$ (20\% improvement) but ATE increased from 0.161 to 0.166 (3\% degradation). Iterating this process na\"ively amplifies both effects: rotation improves further (to $\sim$3.3$\degree$) while translation degrades monotonically (to 0.195 ATE after 5 iterations). Section~\ref{sec:theory} provides a formal explanation: the rotation component contracts toward a fixed point on SO(3), while translations diverge due to Sim(3) scale mismatch in the conditioning pathway.
 
 \subsection{Decoupled Hybrid Fusion (Stage 3)}
 \label{sec:stage3}
