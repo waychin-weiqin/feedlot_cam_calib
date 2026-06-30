@@ -48,18 +48,18 @@ This analysis motivates our hybrid fusion strategy: rotation contracts and shoul
 
 \subsection{Monte Carlo Perturbation as Posterior Sampling}
 
-The stochastic perturbation in Stage~4 admits an interpretation through the lens of denoising score matching~\cite{vincent2011}. Under the hypothesis that Pi3X's conditioning mechanism was trained with noisy pose inputs (a common data augmentation for robustness), conditioned inference approximates the posterior mean:
+Self-conditioning admits an interpretation through the lens of denoising score matching~\cite{vincent2011}. Under the hypothesis that Pi3X's conditioning mechanism was trained with noisy pose inputs (a common data augmentation for robustness), conditioned inference approximates the posterior mean:
 \begin{equation}
     f_\theta(R + \boldsymbol{\epsilon}) \approx \mathbb{E}[R^* \mid R + \boldsymbol{\epsilon}, \text{imgs}]
 \end{equation}
 
-By running $S$ perturbations $\{R \cdot \exp([\boldsymbol{\epsilon}_s]_\times)\}_{s=1}^S$ and computing the Fr\'{e}chet mean of the outputs:
+By running $S$ structured perturbations $\{R \cdot \exp([\boldsymbol{\epsilon}_s]_\times)\}_{s=1}^S$ and pooling all $S \times K$ observations into a single pipeline pass (with Sim(3) alignment across samples to resolve gauge ambiguity), one approximates the marginal posterior mean $\mathbb{E}[R^* \mid \text{imgs}]$ via Monte Carlo integration:
 \begin{equation}
-    \bar{R} = \text{Fr\'{e}chetMean}\left(\{f_\theta(R \cdot \exp([\boldsymbol{\epsilon}_s]_\times))\}_{s=1}^S\right)
+    \bar{R} = \text{Pipeline}\left(\bigcup_{s=1}^S \{f_\theta(R \cdot \exp([\boldsymbol{\epsilon}_s]_\times))\}\right)
 \end{equation}
-we approximate the marginal posterior mean $\mathbb{E}[R^* \mid \text{imgs}]$ via Monte Carlo integration over the perturbation distribution. The variance of this estimator decreases as $O(1/\sqrt{S})$.
+The variance of this estimator decreases as $O(1/\sqrt{S})$ when the posterior has non-trivial spread.
 
-\paragraph{Remark.} This interpretation relies on the assumption that Pi3X was trained with noisy conditioning. While we cannot verify this from the published model, the empirical contraction behaviour (smooth error reduction rather than mode collapse) is consistent with a model that has learned to denoise its conditioning inputs. The interpretation should be understood as a motivating analogy rather than a proven equivalence.
+\paragraph{Empirical verdict.} Despite the theoretical motivation, our experiments demonstrate that MC perturbation provides no measurable benefit in this regime (Section~\ref{sec:ablation_S}). We carefully design the sampling procedure to preserve inter-camera geometry (structured perturbation with shared global rotation), resolve per-sample gauge ambiguity (Sim(3) alignment before pooling), and retain cross-sample information (pool-then-pipeline rather than pipeline-per-sample). Even so, the best multi-sample configuration ($S=8$) merely matches single-sample performance. The explanation is that the model's conditional posterior $p(R^* \mid R + \boldsymbol{\epsilon}, \text{imgs})$ is so tightly concentrated (angular standard deviation $<$0.02\degree{} across samples) that the $O(1/\sqrt{S})$ variance reduction operates on a negligible quantity. The conditioning signal places the model in a near-deterministic regime where all perturbations within the basin of attraction converge to the same output. This does not invalidate the posterior sampling interpretation---it reveals that the posterior is unimodal with negligible variance, making deterministic iteration ($S=1$) strictly preferable.
 
 \subsection{Connection to Iterative Denoising}
 

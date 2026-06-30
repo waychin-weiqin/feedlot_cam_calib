@@ -21,7 +21,7 @@ Table~\ref{tab:comparison} presents the progressive improvement from raw Pi3X ou
 
 \begin{table}[t]
 \centering
-\caption{Progressive improvement from raw Pi3X through our full method. Cost is relative to a single unconditioned inference pass ($\sim$100s on an A100). Row~3 shows na\"ive self-conditioning (rotation improves but translation degrades). Row~4 introduces hybrid fusion (translation preserved). Row~5 iterates the hybrid method twice ($M$=2, no MC perturbation---see Section~\ref{sec:ablation_S}).}
+\caption{Progressive improvement from raw Pi3X through our full method. Cost is relative to a single unconditioned inference pass ($\sim$100s on an A100). Row~3 shows na\"ive self-conditioning (rotation improves but translation degrades). Row~4 introduces hybrid fusion (translation preserved). Row~5 iterates the hybrid method twice ($M$=2).}
 \label{tab:comparison}
 \begin{tabular}{@{}lcccccc@{}}
 \toprule
@@ -49,7 +49,7 @@ The progressive results in Table~\ref{tab:comparison} reveal several findings.
 
 \paragraph{Hybrid fusion resolves the asymmetry.} Decoupling rotation and translation channels (row~4) achieves $3.45\degree{}$ ARE (capturing the conditioned rotation improvement) while maintaining ATE at 0.159 (preserving the unconditioned translation quality). The computational overhead is minimal: one additional conditioned inference pass ($2\times$ total cost).
 
-\paragraph{Iteration further improves rotation at minimal cost.} The full method (row~5) applies hybrid fusion twice ($M=2$), reducing ARE by an additional 8\% over single-step hybrid fusion ($3.45\degree \rightarrow 3.19\degree$). Notably, this uses no stochastic perturbation ($S=1$)---our ablation study (Section~\ref{sec:ablation_S}) demonstrates that Monte Carlo sampling provides no benefit in this regime due to the tight posterior. The $3\times$ total cost makes iterated hybrid fusion practical even for interactive applications.
+\paragraph{Iteration further improves rotation at minimal cost.} The full method (row~5) applies hybrid fusion twice ($M=2$), reducing ARE by an additional 8\% over single-step hybrid fusion ($3.45\degree \rightarrow 3.19\degree$). Our ablation study (Section~\ref{sec:ablation_S}) further investigates whether Monte Carlo perturbation of the conditioning signal can provide additional gains; it does not, revealing that the model's posterior is tightly unimodal. The $3\times$ total cost makes iterated hybrid fusion practical even for interactive applications.
 
 \paragraph{Aggregate improvement.} Comparing the raw model output (row~1) to the full method (row~5): ARE improves by 27\% ($4.37\degree \rightarrow 3.19\degree$), RPE rotation by 39\%, RPE translation by 36\%, and ATE by 15\%. The co-location constraint (C2C3) is satisfied exactly under pose graph optimization (rows~2--5).
 

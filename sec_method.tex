@@ -29,7 +29,7 @@ Pi3X supports multimodal conditioning: given approximate poses $\hat{T}^c$ and c
 \end{equation}
 where $f_\theta$ denotes Pi3X and $\hat{T}^c$ is the Stage~1 estimate converted to the model's input camera ordering.
 
-Applying the same geometric post-processing to $\{T_k^{c,(1)}\}$ yields a refined estimate with ARE reduced from $4.39\degree$ to $3.49\degree$ (20\% improvement) but ATE increased from 0.161 to 0.166 (3\% degradation). Iterating this process na\"ively amplifies both effects: rotation improves further (to $\sim$3.3$\degree$) while translation degrades monotonically (to 0.195 ATE after 5 iterations). Section~\ref{sec:theory} provides a formal explanation: the rotation component contracts toward a fixed point on SO(3), while translations diverge due to Sim(3) scale mismatch in the conditioning pathway.
+Applying the same geometric post-processing to $\{T_k^{c,(1)}\}$ yields a refined estimate with ARE reduced from $4.39\degree$ to $3.49\degree$ (20\% improvement) but ATE increased from 0.161 to 0.166 (3\% degradation). Iterating this process na\"ively amplifies both effects: rotation improves further (to ${\sim}3.3\degree{}$) while translation degrades monotonically (to 0.195 ATE after 5 iterations). Section~\ref{sec:theory} provides a formal explanation: the rotation component contracts toward a fixed point on SO(3), while translations diverge due to Sim(3) scale mismatch in the conditioning pathway.
 
 \subsection{Decoupled Hybrid Fusion (Stage 3)}
 \label{sec:stage3}
@@ -49,26 +49,22 @@ The initial pose for graph optimization similarly uses conditioned rotations wit
 
 This yields ARE = 3.45\degree{} (rotation improved) with ATE = 0.159 (translation preserved)---capturing the benefits of both sources.
 
-\subsection{Monte Carlo Iterative Refinement (Stage 4)}
+\subsection{Iterated Hybrid Refinement}
 \label{sec:stage4}
 
-To further improve rotation estimates, we iterate the hybrid fusion with stochastic perturbation of the conditioning signal. The perturbation serves two purposes: (i) it explores the local neighbourhood of the current estimate, sampling multiple poses from the model's ``denoising basin''; (ii) it provides diversity across ensemble members, reducing the variance of the averaged rotation edges.
+Since a single conditioned pass reduces rotation error by 20\%, a natural question is whether iterating the process yields further gains. We apply hybrid fusion iteratively: at each step, the optimised rotation estimate from the previous iteration serves as the new conditioning input.
 
 \begin{algorithm}[t]
-\caption{Iterated Hybrid MC Refinement}
+\caption{Iterated Hybrid Refinement}
 \label{alg:itermc}
 \begin{algorithmic}[1]
 \REQUIRE Pipeline estimate $\hat{T}^c$, images, intrinsics $\boldsymbol{\Pi}^c$
-\REQUIRE Noise: $\sigma_R$, $\sigma_t$; samples: $S$; iterations: $M$
+\REQUIRE Iterations: $M$
 \STATE $T_{\text{curr}} \leftarrow \hat{T}^c$
 \STATE Compute unconditioned edges $\{\mathbf{t}_{ij}^{\text{uncond}}, w_{ij}^t\}$ \COMMENT{fixed throughout}
 \FOR{$m = 1$ to $M$}
-    \FOR{$s = 1$ to $S$}
-        \STATE $T_s^c \leftarrow \text{Perturb}(T_{\text{curr}}^c, \sigma_R, \sigma_t)$ for all $c$
-        \STATE $\{T_{k,s}^c\} \leftarrow f_\theta(\text{imgs} \mid T_s, \boldsymbol{\Pi}^c)$ for all $k$
-        \STATE $\hat{T}_s^c \leftarrow \text{Pipeline}(\{T_{k,s}^c\})$
-    \ENDFOR
-    \STATE Extract rotation edges $\{R_{ij}^{\text{cond}}, w_{ij}^R\}$ from pooled aligned poses
+    \STATE $\{T_{k}^{c,(m)}\} \leftarrow f_\theta(\text{imgs} \mid T_{\text{curr}}, \boldsymbol{\Pi}^c)$ for all $k$
+    \STATE Extract rotation edges $\{R_{ij}^{\text{cond}}, w_{ij}^R\}$ from pipeline-processed conditioned poses
     \STATE Fuse: $\tilde{T}_{ij} = (R_{ij}^{\text{cond}}, \mathbf{t}_{ij}^{\text{uncond}})$
     \STATE $T_{\text{opt}} \leftarrow \text{PoseGraph}(\bar{T}_{\text{init}}, \tilde{T}_{ij}, w_{ij})$
     \STATE $T_{\text{curr}} \leftarrow (R_{\text{opt}}, \mathbf{t}_{\text{uncond}})$ \COMMENT{anchor translations}
@@ -77,13 +73,10 @@ To further improve rotation estimates, we iterate the hybrid fusion with stochas
 \end{algorithmic}
 \end{algorithm}
 
-The $\text{Perturb}$ operation applies independent Gaussian noise to each camera's pose: rotation is perturbed via the exponential map $R' = R \cdot \exp([\boldsymbol{\epsilon}_R]_\times)$ where $\boldsymbol{\epsilon}_R \sim \mathcal{N}(\mathbf{0}, \sigma_R^2 I_3)$, and translation is perturbed additively $\mathbf{t}' = \mathbf{t} + \boldsymbol{\epsilon}_t$ where $\boldsymbol{\epsilon}_t \sim \mathcal{N}(\mathbf{0}, \sigma_t^2 I_3)$.
-
 \paragraph{Design choices.}
 \begin{itemize}
-    \item \textbf{Noise magnitude}: $\sigma_R = 2\degree$ (axis-angle standard deviation), $\sigma_t = 0.05$ (isotropic, in scene units). These are chosen to stay within the model's contraction basin ($< 5\degree$; see Section~\ref{sec:ablation}).
     \item \textbf{Translation anchoring}: Translations are \emph{never} updated from conditioned outputs---only from the original unconditioned baseline. This is the key invariant that prevents Sim(3) drift.
-    \item \textbf{Early stopping}: Terminate when ARE improvement between iterations falls below $0.1\degree$, or after $M=3$ iterations (empirically sufficient; see Section~\ref{sec:ablation}).
+    \item \textbf{Early stopping}: Terminate when ARE improvement between iterations falls below $0.1\degree$, or after $M=2$ iterations (empirically sufficient; see Section~\ref{sec:ablation}).
 \end{itemize}
 
-\paragraph{Probabilistic interpretation.} Each perturbed conditioned inference produces an approximate sample from the posterior $p(R \mid \text{imgs})$. Pooling $S \times N_t$ aligned poses across samples before extracting rotation edges estimates the posterior mean over relative rotations, reducing variance by $O(1/\sqrt{S})$. We formalise this connection to denoising score matching in Section~\ref{sec:theory}.
+\paragraph{Monte Carlo extension.} The iterative procedure admits a natural stochastic extension: perturbing the conditioning poses before each forward pass and pooling the resulting observations across $S$ samples. Under a posterior sampling interpretation (Section~\ref{sec:theory}), this estimates the posterior mean via Monte Carlo integration, with variance decreasing as $O(1/\sqrt{S})$. We implement this with structured perturbation (shared global rotation preserving inter-camera geometry), Sim(3) alignment across samples, and pool-before-pipeline aggregation. However, our experiments (Section~\ref{sec:ablation_S}) demonstrate that this extension provides no benefit: the model's posterior under self-conditioning is so tightly concentrated that $S=1$ (deterministic iteration) is optimal.

@@ -1,0 +1,115 @@
+\begin{thebibliography}{10}
+
+\bibitem{besl1992}
+Paul~J Besl and Neil~D McKay.
+\newblock A method for registration of 3-d shapes.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  14(2):239--256, 1992.
+
+\bibitem{chatterjee2018}
+Avishek Chatterjee and Venu~Madhav Govindu.
+\newblock Robust rotation averaging.
+\newblock In {\em IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, volume~40, pages 578--590, 2018.
+
+\bibitem{cipolla1999}
+Roberto Cipolla, Tom Drummond, and Duncan Robertson.
+\newblock Camera calibration from vanishing points in images of architectural
+  scenes.
+\newblock {\em BMVC}, 1999.
+
+\bibitem{godard2019}
+Cl{\'e}ment Godard, Oisin {Mac Aodha}, Michael Firman, and Gabriel Brostow.
+\newblock Digging into self-supervised monocular depth estimation.
+\newblock In {\em ICCV}, 2019.
+
+\bibitem{hartley2013}
+Richard Hartley, Jochen Trumpf, Yuchao Dai, and Hongdong Li.
+\newblock Rotation averaging.
+\newblock {\em International Journal of Computer Vision}, 103(3):267--305,
+  2013.
+
+\bibitem{mast3r}
+Vincent Leroy, Yohann Cabon, and Jerome Revaud.
+\newblock Mast3r: Grounding image matching in 3d with mast3r.
+\newblock In {\em arXiv preprint arXiv:2406.09756}, 2024.
+
+\bibitem{moakher2002}
+Maher Moakher.
+\newblock Means and averaging in the group of rotations.
+\newblock {\em SIAM Journal on Matrix Analysis and Applications}, 24(1):1--16,
+  2002.
+
+\bibitem{moulon2013}
+Pierre Moulon, Pascal Monasse, and Renaud Marlet.
+\newblock Global fusion of relative motions for robust, accurate and scalable
+  structure from motion.
+\newblock In {\em ICCV}, 2013.
+
+\bibitem{schonberger2016}
+Johannes~L Sch{\"o}nberger and Jan-Michael Frahm.
+\newblock Structure-from-motion revisited.
+\newblock In {\em CVPR}, 2016.
+
+\bibitem{song2021}
+Yang Song, Jascha Sohl-Dickstein, Diederik~P Kingma, Abhishek Kumar, Stefano
+  Ermon, and Ben Poole.
+\newblock Score-based generative modeling through stochastic differential
+  equations.
+\newblock {\em ICLR}, 2021.
+
+\bibitem{sun2020}
+Yu~Sun, Xiaolong Wang, Zhuang Liu, John Miller, Alexei~A Efros, and Moritz
+  Haus.
+\newblock Test-time training with self-supervision for generalization under
+  distribution shifts.
+\newblock In {\em ICML}, 2020.
+
+\bibitem{triggs2000}
+Bill Triggs, Philip~F McLauchlan, Richard~I Hartley, and Andrew~W Fitzgibbon.
+\newblock Bundle adjustment --- a modern synthesis.
+\newblock In {\em Vision Algorithms: Theory and Practice}, pages 298--372.
+  Springer, 2000.
+
+\bibitem{umeyama1991}
+Shinji Umeyama.
+\newblock Least-squares estimation of transformation parameters between two
+  point patterns.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  13(4):376--380, 1991.
+
+\bibitem{vincent2011}
+Pascal Vincent.
+\newblock A connection between score matching and denoising autoencoders.
+\newblock {\em Neural Computation}, 23(7):1661--1674, 2011.
+
+\bibitem{vggt}
+Jianyuan Wang, Minghao Chen, Nikita Karaev, Andrea Vedaldi, Christian
+  Rupprecht, and David Novotny.
+\newblock Vggt: Visual geometry grounded transformer.
+\newblock In {\em arXiv preprint arXiv:2503.11651}, 2025.
+
+\bibitem{dust3r}
+Shuzhe Wang, Vincent Leroy, Yohann Cabon, Philippe Weinzaepfel, and Jerome
+  Revaud.
+\newblock Dust3r: Geometric 3d vision made easy.
+\newblock In {\em CVPR}, 2024.
+
+\bibitem{pi3x}
+Yifan Yang et~al.
+\newblock Pi3: Permutation-equivariant visual geometry.
+\newblock In {\em arXiv preprint arXiv:2503.09745}, 2025.
+
+\bibitem{yim2023}
+Jason Yim, Brian~L Trippe, Valentin De~Bortoli, Emile Mathieu, Arnaud Doucet,
+  Regina Barzilay, and Tommi Jaakkola.
+\newblock Se(3) diffusion model with application to protein backbone
+  generation.
+\newblock In {\em ICML}, 2023.
+
+\bibitem{zhang2000}
+Zhengyou Zhang.
+\newblock A flexible new technique for camera calibration.
+\newblock volume~22, pages 1330--1334, 2000.
+
+\end{thebibliography}

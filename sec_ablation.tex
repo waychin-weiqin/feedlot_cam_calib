@@ -1,7 +1,7 @@
 \section{Ablation Studies}
 \label{sec:ablation}
 
-We isolate the contribution of each design decision through four ablation experiments.
+We isolate the contribution of each design decision through five ablation experiments.
 
 \subsection{Effect of Hybrid Decoupling}
 
@@ -51,11 +51,11 @@ The model tolerates conditioning noise up to approximately 5\degree{} of rotatio
 
 \subsection{Convergence Behaviour}
 
-Table~\ref{tab:convergence} reports per-iteration metrics for the full hybrid MC method.
+Table~\ref{tab:convergence} reports per-iteration metrics for iterated hybrid fusion.
 
 \begin{table}[h]
 \centering
-\caption{Convergence of iterated hybrid MC refinement ($S=4$ samples per iteration). Iteration~2 achieves the minimum ARE; iteration~4 produces an orientation flip in the rotation estimate.}
+\caption{Convergence of iterated hybrid fusion ($S=1$, deterministic). Iteration~2 achieves the minimum ARE; iteration~4 produces an orientation flip in the rotation estimate.}
 \label{tab:convergence}
 \begin{tabular}{@{}ccccc@{}}
 \toprule
@@ -70,7 +70,7 @@ Iteration & ATE & ARE (\degree{}) & RPE$_R$ (\degree{}) & RPE$_t$ \\
 \end{tabular}
 \end{table}
 
-The method converges monotonically through iterations 1--2, achieving a 29\% ARE reduction. Iteration~3 shows slight regression, and iteration~4 produces catastrophic failure (orientation flip in at least one camera). This behaviour is consistent with the basin-of-attraction analysis: as the conditioned estimate approaches the $\sim$3\degree{} fixed point, the margin between the estimate's error and the basin boundary narrows, making the iteration sensitive to perturbation noise. We adopt a conservative stopping criterion of $M=2$ iterations or ARE improvement below $0.1\degree{}$ between successive iterations.
+The method converges monotonically through iterations 1--2, achieving a 29\% ARE reduction. Iteration~3 shows slight regression, and iteration~4 produces catastrophic failure (orientation flip in at least one camera). This behaviour is consistent with the basin-of-attraction analysis: as the conditioned estimate approaches the $\sim$3\degree{} fixed point, the margin between the estimate's error and the basin boundary narrows, making the system sensitive to accumulated approximation error. We adopt a conservative stopping criterion of $M=2$ iterations or ARE improvement below $0.1\degree{}$ between successive iterations.
 
 \subsection{Inefficacy of Sim(3) Re-alignment}
 
@@ -94,51 +94,39 @@ Iter & Sim(3) ATE & Sim(3) ARE & Unconstrained ATE & Unconstrained ARE \\
 
 The near-identical degradation trajectories confirm that translation failure is not a scale problem but a structural one: Pi3X's conditioning mechanism introduces systematic translational bias that is independent of the output's global scale. This motivates our decision to anchor translations entirely to the unconditioned source rather than attempting to correct the conditioned output.
 
-\subsection{Effect of Sample Count $S$}
+\subsection{Monte Carlo Posterior Sampling}
 \label{sec:ablation_S}
 
-We fix $M=2$ iterations and $\sigma_R = 2\degree{}$ and vary the number of MC samples $S$ per iteration (Table~\ref{tab:s_ablation}).
+Self-conditioning admits an interpretation as approximate posterior inference: by perturbing the conditioning poses and averaging the resulting outputs, one performs Monte Carlo integration over the model's implicit posterior $p(R^* \mid R + \boldsymbol{\epsilon}, \text{imgs})$. If this posterior has non-trivial variance, averaging $S$ samples should reduce error as $O(1/\sqrt{S})$.
+
+We implement MC sampling with three design considerations that are critical for correctness in the Sim(3) setting. First, each perturbed sample produces poses in a different arbitrary Sim(3) frame; we apply Sim(3) Procrustes alignment across samples before aggregation. Second, rather than running the full pipeline independently per sample (which discards cross-sample information), we pool all $S \times K$ observations into a single enlarged dataset and run one pipeline pass on the full pool. Third, we use \emph{structured perturbation}: a shared random rotation applied to all cameras simultaneously, preserving the inter-camera constellation geometry that Pi3X exploits, with only small per-camera residuals ($\sigma_R / 5$) for diversity.
+
+We evaluate this MC strategy with $M=1$ iteration (to isolate the MC effect from iteration gains), sweeping perturbation magnitude $\sigma_R \in \{0.5\degree{}, 1.0\degree{}, 2.0\degree{}\}$ and sample count $S \in \{2, 4, 8\}$. Table~\ref{tab:mc_sampling} reports the results.
 
 \begin{table}[h]
 \centering
-\caption{Effect of MC sample count $S$ on final accuracy ($M=2$, $\sigma_R=2\degree{}$). The angular standard deviation across samples measures the spread of the per-sample rotation estimates. $S=1$ (deterministic, no perturbation) achieves the lowest ARE.}
-\label{tab:s_ablation}
-\begin{tabular}{@{}cccccc@{}}
+\caption{Monte Carlo posterior sampling ($M=1$, structured perturbation, pool-before-pipeline with Sim(3) alignment). The $S=1$ baseline (no perturbation) achieves ARE\,=\,3.63\degree{}. No configuration with $S > 1$ improves upon it.}
+\label{tab:mc_sampling}
+\begin{tabular}{@{}ccccc@{}}
 \toprule
-$S$ & ATE$\downarrow$ & ARE (\degree{})$\downarrow$ & Ang.\ Std (\degree{}) & Cost & Time (s) \\
+$\sigma_R$ (\degree{}) & $S$ & ARE (\degree{})$\downarrow$ & ATE$\downarrow$ & Cost \\
 \midrule
-1 & \textbf{0.151} & \textbf{3.19} & --- & 3$\times$ & 214 \\
-2 & 0.154 & 3.43 & $<$0.01 & 5$\times$ & 429 \\
-4 & 0.156 & 3.24 & 0.38 & 9$\times$ & 899 \\
-8 & 0.154 & 3.48 & 0.55 & 17$\times$ & 1714 \\
-16 & 0.152 & 3.41 & 0.58 & 33$\times$ & 3430 \\
+--- & 1 & \textbf{3.63} & 0.154 & 2$\times$ \\
+\midrule
+0.5 & 2 & 3.64 & 0.153 & 3$\times$ \\
+0.5 & 4 & 3.65 & 0.153 & 5$\times$ \\
+0.5 & 8 & 3.63 & 0.153 & 9$\times$ \\
+1.0 & 2 & 3.65 & 0.153 & 3$\times$ \\
+1.0 & 4 & 3.65 & 0.153 & 5$\times$ \\
+1.0 & 8 & 3.64 & 0.153 & 9$\times$ \\
+2.0 & 2 & 3.67 & 0.153 & 3$\times$ \\
+2.0 & 4 & 3.66 & 0.153 & 5$\times$ \\
+2.0 & 8 & 3.63 & 0.153 & 9$\times$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Counter to the theoretical prediction that averaging $S$ samples should reduce variance as $O(1/\sqrt{S})$, increasing $S$ provides no improvement---and in most cases slightly degrades---ARE relative to $S=1$. The angular standard deviation across MC samples is very small ($<$1\degree{} for all $S$), confirming that the model's posterior under our conditioning regime is tightly concentrated around a single mode. In this regime, stochastic perturbation adds noise to the conditioning signal without exploring meaningfully different solutions, and the Fréchet mean over perturbed outputs is slightly less accurate than the single deterministic conditioned pass.
+The results are unambiguous: no multi-sample configuration outperforms deterministic single-pass conditioning. The best cases ($S=8$, $\sigma_R \in \{0.5\degree{}, 2.0\degree{}\}$) match $S=1$ at 3.63\degree{} but never exceed it, despite 4.5$\times$ additional compute. Larger perturbation magnitudes slightly degrade intermediate $S$ values (e.g., $S=2$ at $\sigma_R=2\degree{}$ yields 3.67\degree{}), indicating that the perturbation introduces error without eliciting useful posterior diversity.
 
-This finding revises our earlier recommendation: for this dataset, the optimal configuration is $S=1$ (no perturbation), $M=2$ iterations, yielding ARE~=~3.19\degree{} at only 3$\times$ the cost of a single unconditioned pass---a 27\% rotation improvement with minimal compute overhead.
+This finding reveals that the model's conditional posterior is \emph{effectively a point mass}: all perturbations within the basin of attraction converge to the same output, leaving no variance for MC averaging to reduce. The $O(1/\sqrt{S})$ improvement predicted by the posterior sampling interpretation operates on a negligible base variance ($<$0.02\degree{} angular standard deviation across samples). Deterministic iteration ($S=1$, $M=2$) remains strictly preferable, achieving ARE\,=\,3.19\degree{} at 3$\times$ cost.
 
-\subsection{Weighting Strategy for Sample Aggregation}
-\label{sec:ablation_weighting}
-
-Given that MC sampling provides marginal benefit, we test whether non-uniform weighting can extract better estimates from multi-sample runs ($S=8$, $M=1$). Table~\ref{tab:weighting} compares four weighting strategies.
-
-\begin{table}[h]
-\centering
-\caption{Weighting strategies for MC sample aggregation ($S=8$, $M=1$). All strategies produce near-identical results, confirming that per-sample differences are negligible.}
-\label{tab:weighting}
-\begin{tabular}{@{}lcccc@{}}
-\toprule
-Strategy & ATE$\downarrow$ & ARE (\degree{})$\downarrow$ & RPE$_R$ (\degree{})$\downarrow$ & RPE$_t$$\downarrow$ \\
-\midrule
-Equal weight (baseline) & 0.152 & 4.06 & 5.06 & 0.398 \\
-Confidence-weighted & 0.152 & 4.06 & 5.07 & 0.398 \\
-Inverse-variance & 0.152 & 4.04 & 5.05 & 0.397 \\
-Robust reweighted & 0.152 & 4.04 & 5.06 & 0.397 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-All four strategies produce functionally identical results (ARE differences $<$0.02\degree{}). This confirms the finding from Section~\ref{sec:ablation_S}: the posterior is unimodal and tightly concentrated, so all samples carry essentially equal information regardless of their Pi3X confidence score or internal consistency. The equal-weight assumption is not a limiting approximation in this regime---the limitation is that multiple samples provide no additional information beyond a single pass.
