@@ -1,15 +1,41 @@
 \section{Introduction}
 \label{sec:introduction}
 
-We address the problem of extrinsic calibration for 8 static cameras deployed in a cattle feedlot. The scene presents challenges where classical calibration methods fail: textureless dynamic subjects (black cattle), minimal inter-camera overlap, and no physical calibration targets.
+Extrinsic calibration of wide-baseline multi-camera systems is a prerequisite for 3D reconstruction, tracking, and scene understanding. Classical approaches rely on either physical calibration targets (checkerboards, ArUco markers) or structure-from-motion pipelines that extract and match distinctive static features across views. Both fail in a growing class of real-world deployments where: (i) cameras are spaced far apart with minimal field-of-view overlap, (ii) the dominant visual content is dynamic and repetitive, and (iii) the static scene geometry is degenerate.
 
-We use Pi3X~\cite{pi3x}, a permutation-equivariant feed-forward geometry model that processes all $N$ views jointly and outputs camera poses up to Sim(3) ambiguity. By aggregating predictions across 91 timesteps, we obtain an initial calibration estimate with $\sim$4.4° mean rotation error.
+We study this problem in a concrete setting---eight wide-baseline cameras monitoring a cattle feedlot---that instantiates all three failure modes simultaneously:
+\begin{itemize}
+    \item \textbf{Wide baseline, minimal overlap.} Cameras are separated by 5--10m with narrow overlapping regions, making cross-view feature matching unreliable.
+    \item \textbf{Dynamic, repetitive content.} Over 80\% of each frame is occupied by moving cattle with near-identical black appearance. Matched features across views may correspond to different animals.
+    \item \textbf{Degenerate static structure.} The pen is a flat ground plane with few distinctive static landmarks---violating the non-planar scene assumption required for robust triangulation.
+\end{itemize}
 
-\textbf{Key insight.} Pi3X accepts optional pose conditioning---feeding known camera poses alongside images improves its predictions. We exploit this by feeding Pi3X's \emph{own output} back as conditioning, creating an iterative self-refinement loop. However, na\"ive iteration improves rotation but degrades translation due to Sim(3) scale ambiguity compounding across iterations.
+These conditions are not unique to livestock monitoring. The same challenge arises in wildlife observation (savanna, marine), sports analytics (stadium cameras observing players), traffic monitoring at wide intersections, and construction site surveillance. The common thread is \emph{calibrating cameras whose observations are dominated by dynamic, visually repetitive content over geometrically degenerate backgrounds}.
 
-\textbf{Contribution.} We propose a hybrid fusion strategy that:
+\subsection{Foundation Geometry Models as a Solution}
+
+Recent feed-forward geometry models~\cite{pi3x,vggt,dust3r} bypass explicit feature correspondence by learning to reason about multi-view geometry directly from images. Pi3X~\cite{pi3x}, a permutation-equivariant model that processes all $N$ views jointly, achieves state-of-the-art accuracy on standard benchmarks. Applied to our setting, Pi3X succeeds where classical methods fail entirely---producing camera poses with $\sim$4.4° mean rotation error from raw images alone.
+
+However, this accuracy saturates. Standard geometric post-processing (Sim(3) gauge fixing, robust rotation averaging, pose graph optimization) barely improves upon Pi3X's raw output, because the residual error is not statistical noise but systematic bias arising from the scene's weak geometric signal.
+
+\subsection{Key Insight: Self-Conditioning on Sim(3)}
+
+Pi3X accepts optional pose conditioning---feeding known camera poses alongside images improves its predictions. We exploit this by feeding Pi3X's \emph{own output} back as conditioning, creating an iterative self-refinement loop analogous to fixed-point iteration on the pose manifold.
+
+We discover a surprising asymmetry: \textbf{self-conditioning improves rotation but degrades translation}. This is not a bug but a fundamental consequence of Sim(3) ambiguity---Pi3X's outputs are defined up to an arbitrary scale, so translation information fed back as SE(3) conditioning introduces compounding scale bias, while rotation (which is scale-invariant) contracts toward the correct solution.
+
+This raises two questions that we address in this paper: \emph{Under what conditions does self-conditioning converge on the rotation manifold?} And: \emph{How can the rotation-translation asymmetry be exploited to improve calibration without degrading either component?}
+
+\subsection{Contributions}
+
 \begin{enumerate}
-    \item Decouples rotation and translation in the self-refinement loop
-    \item Uses Monte Carlo noise perturbation to explore the posterior over poses
-    \item Achieves 28\% rotation improvement with no external calibration data
+    \item \textbf{Empirical characterisation of self-conditioning dynamics.} We show that learned geometry models act as contraction mappings on SO(3) (with measurable rate $\lambda \approx 0.8$) but \emph{not} on the translation component of Sim(3). This is the first characterisation of convergence behaviour in self-conditioned feed-forward geometry models.
+
+    \item \textbf{Decoupled hybrid refinement.} We propose a method that exploits the R/t asymmetry by fusing rotation edges from conditioned inference with translation edges from unconditioned inference in a single pose graph. This preserves translation accuracy while capturing rotation improvements.
+
+    \item \textbf{Monte Carlo iterative denoising.} We introduce stochastic perturbation of the conditioning signal, interpreting conditioned inference as approximate posterior sampling. Combined with iterative hybrid fusion, this achieves 28\% rotation improvement and 21\% relative pose improvement over the baseline---with no external calibration data.
+
+    \item \textbf{Convergence analysis.} We predict the method's accuracy floor from the measured contraction rate and validate experimentally, establishing when self-refinement helps and when it saturates.
 \end{enumerate}
+
+Our method is applicable to any learned geometry model with a conditioning interface (Pi3X, VGGT, DUSt3R variants) deployed in feature-adversarial environments where classical calibration is infeasible.

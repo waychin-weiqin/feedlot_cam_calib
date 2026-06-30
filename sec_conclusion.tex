@@ -1,0 +1,6 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have shown that self-conditioning in learned geometry models exhibits a fundamental asymmetry: rotation contracts toward a fixed point on SO(3) while translation diverges due to Sim(3) scale ambiguity. Exploiting this asymmetry via decoupled hybrid fusion---sourcing rotation from conditioned inference and translation from unconditioned inference---yields consistent improvements without the degradation of na\"ive iteration. Combined with Monte Carlo perturbation, our method achieves 28\% rotation improvement over the raw Pi3X baseline on a challenging wide-baseline, feature-adversarial calibration task, with no external calibration data required.
+
+The contraction rate ($\lambda \approx 0.8$) and resulting accuracy floor ($\sim$3\degree{}) are properties of the model and scene, not the method. Breaking this floor requires either stronger external priors or architectural changes to the conditioning mechanism. We believe the decoupled self-refinement framework generalises to any learned geometry model with a pose conditioning interface, and the contraction analysis provides a principled tool for predicting when iterative refinement will help.

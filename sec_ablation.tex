@@ -13,9 +13,9 @@ Na\"ive iterative refinement (feeding full conditioned output back without decou
 \toprule
 Method & ATE$\downarrow$ & ARE$\downarrow$ & $\Delta$ATE & $\Delta$ARE \\
 \midrule
-Unconditioned baseline & 0.161 & 4.39° & --- & --- \\
-Na\"ive self-refine (iter 5) & 0.195 & 3.60° & +21\% & $-$18\% \\
-Hybrid MC (iter 2) & 0.160 & 3.13° & $-$1\% & $-$29\% \\
+Unconditioned baseline & 0.161 & 4.39\degree{} & --- & --- \\
+Na\"ive self-refine (iter 5) & 0.195 & 3.60\degree{} & +21\% & $-$18\% \\
+Hybrid MC (iter 2) & 0.160 & 3.13\degree{} & $-$1\% & $-$29\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -32,23 +32,23 @@ We test Pi3X's conditioning with ground truth poses corrupted by varying levels 
 \label{tab:noise_robustness}
 \begin{tabular}{@{}cccc@{}}
 \toprule
-Rot.\ noise (°) & Trans.\ noise & ATE$\downarrow$ & ARE$\downarrow$ \\
+Rot.\ noise (\degree{}) & Trans.\ noise & ATE$\downarrow$ & ARE$\downarrow$ \\
 \midrule
-0 (perfect GT) & 0 & 0.097 & 1.22° \\
-1 & 0.05 & 0.087 & 1.30° \\
-2 & 0.10 & 0.080 & 1.60° \\
-5 & 0.20 & 0.077 & 3.34° \\
-10 & 0.50 & 0.368 & 180° \\
-20 & 1.00 & 0.951 & 180° \\
+0 (perfect GT) & 0 & 0.097 & 1.22\degree{} \\
+1 & 0.05 & 0.087 & 1.30\degree{} \\
+2 & 0.10 & 0.080 & 1.60\degree{} \\
+5 & 0.20 & 0.077 & 3.34\degree{} \\
+10 & 0.50 & 0.368 & 180\degree{} \\
+20 & 1.00 & 0.951 & 180\degree{} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Key observations:
 \begin{itemize}
-    \item Conditioning tolerates up to $\sim$5° of rotation noise
-    \item Beyond 10°, the conditioning signal becomes misleading and breaks the model
-    \item Our self-conditioned prior ($\sim$4.4° error) is at the edge of the useful regime, explaining the diminishing returns beyond 2--3 iterations
+    \item Conditioning tolerates up to $\sim$5\degree{} of rotation noise
+    \item Beyond 10\degree{}, the conditioning signal becomes misleading and breaks the model
+    \item Our self-conditioned prior ($\sim$4.4\degree{} error) is at the edge of the useful regime, explaining the diminishing returns beyond 2--3 iterations
 \end{itemize}
 
 \subsection{Convergence Behavior}
@@ -67,12 +67,12 @@ Iteration & ATE & ARE (°) & RPE rot (°) & RPE trans \\
 1 & 0.162 & 3.43 & 4.88 & 0.321 \\
 2 & 0.160 & 3.13 & 4.58 & 0.309 \\
 3 & 0.163 & 3.38 & 4.70 & 0.307 \\
-4 & 0.160 & 180° & 4.78 & 8.55 \\
+4 & 0.160 & 180\degree{} & 4.78 & 8.55 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Iteration 2 is the sweet spot. Beyond iteration 3, the conditioned rotations begin to drift and can cause orientation flips (iter 4). We recommend stopping after 2--3 iterations or when ARE improvement is $<0.1°$.
+Iteration 2 is the sweet spot. Beyond iteration 3, the conditioned rotations begin to drift and can cause orientation flips (iter 4). We recommend stopping after 2--3 iterations or when ARE improvement is $<0.1\degree{}$.
 
 \subsection{Sim(3) Constraint Does Not Help}
 
@@ -86,10 +86,10 @@ We tested Sim(3)-aligning the conditioned output back to the conditioning frame 
 \toprule
 Iter & Sim3 ATE & Sim3 ARE & Na\"ive ATE & Na\"ive ARE \\
 \midrule
-0 & 0.152 & 4.69° & 0.152 & 4.69° \\
-1 & 0.160 & 3.50° & 0.160 & 3.50° \\
-2 & 0.180 & 3.31° & 0.179 & 3.29° \\
-5 & 0.197 & 3.61° & 0.195 & 3.59° \\
+0 & 0.152 & 4.69\degree{} & 0.152 & 4.69\degree{} \\
+1 & 0.160 & 3.50\degree{} & 0.160 & 3.50\degree{} \\
+2 & 0.180 & 3.31\degree{} & 0.179 & 3.29\degree{} \\
+5 & 0.197 & 3.61\degree{} & 0.195 & 3.59\degree{} \\
 \bottomrule
 \end{tabular}
 \end{table}

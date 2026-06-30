@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.25)  26 JUN 2026 13:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.25)  30 JUN 2026 10:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -325,33 +325,36 @@ Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
 \ALC@tlm=\skip53
 \algorithmicindent=\skip54
 )
+(/usr/share/texlive/texmf-dist/tex/latex/was/gensymb.sty
+Package: gensymb 2003/07/02 v1.0 (WaS)
+)
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count294
 \l__pdf_internal_box=\box54
 )
-No file main.aux.
+(./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+ (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count295
 \scratchdimen=\dimen175
@@ -373,7 +376,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 17.
+Package hyperref Info: Link coloring OFF on input line 18.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
@@ -386,9 +389,11 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count301
 )
-LaTeX Info: Redefining \ref on input line 17.
-LaTeX Info: Redefining \pageref on input line 17.
-LaTeX Info: Redefining \nameref on input line 17.
+LaTeX Info: Redefining \ref on input line 18.
+LaTeX Info: Redefining \pageref on input line 18.
+LaTeX Info: Redefining \nameref on input line 18.
+
+(./main.out) (./main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
@@ -427,103 +432,92 @@ LaTeX Info: Redefining \nameref on input line 17.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 19.
+LaTeX Info: Redefining \celsius on input line 18.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 18.
+
+
+Package gensymb Warning: Not defining \perthousand.
+
+LaTeX Info: Redefining \ohm on input line 18.
+Package gensymb Info: Using \Omega for \ohm on input line 18.
+
+Package gensymb Warning: Not defining \micro.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 20.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 19.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 20.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-(./sec_introduction.tex
+(./sec_introduction.tex [1
 
-LaTeX Warning: Citation `pi3x' on page 1 undefined on input line 6.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]) (./sec_related.tex [2]
+Overfull \hbox (13.89749pt too wide) in paragraph at lines 6--7
+ []\T1/cmr/bx/n/10.95 Multi-camera cal-i-bra-tion.[] \T1/cmr/m/n/10.95 Clas-si-
+cal ex-trin-sic cal-i-bra-tion uses phys-i-cal tar-gets (checker-boards [[]]),
+ []
 
-) (./sec_method.tex [1
+) (./sec_benchmark.tex [3] [4pdfTeX warning (ext4): destination with the same i
+dentifier (name{table.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.53     \item A
+                ll models were published in 2025, indicating that wide-basel...
+]) (./sec_method.tex
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Warning: Citation `umeyama1991' on page 5 undefined on input line 11.
 
-LaTeX Warning: Reference `sec:ablation' on page 2 undefined on input line 30.
+! Undefined control sequence.
+l.13     \{s^*, R^*, \mathbf{t}^*\} = \argmin
+                                             _{s, R, \mathbf{t}} \sum_{c=1}^...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
+
+LaTeX Warning: Citation `moakher2002' on page 5 undefined on input line 17.
+
+
+Overfull \hbox (8.41008pt too wide) in paragraph at lines 19--20
+ []\T1/cmr/bx/n/10.95 Pose graph op-ti-miza-tion.[] \T1/cmr/m/n/10.95 We ex-tra
+ct pair-wise rel-a-tive poses $\OML/cmm/m/it/10.95 T[] \OT1/cmr/m/n/10.95 = (\O
+ML/cmm/m/it/10.95 T[]\OT1/cmr/m/n/10.95 )[]\OML/cmm/m/it/10.95 T[]$ \T1/cmr/m/n
+/10.95 from in-lier timesteps,
+ []
+
+[5]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 48.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 72.
+put line 64.
+ [6]) (./sec_theory.tex
+LaTeX Font Info:    Trying to load font information for U+euf on input line 12.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 72.
-
-Missing character: There is no � in font cmr10!
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 74.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 74.
-
-Missing character: There is no � in font cmr10!
-) (./sec_results.tex [2] [3pdfTeX warning (ext4): destination with the same ide
-ntifier (name{table.1}) has been already used, duplicate ignored
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
+File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
+) [7] [8])
+(./sec_results.tex [9] [10pdfTeX warning (ext4): destination with the same iden
+tifier (name{table.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.39     \item \textbf
-                      {ARE}: 4.37째 $\rightarrow$ 3.13째 (\textbf{28\% impro...
-]) (./sec_ablation.tex [4pdfTeX warning (ext4): destination with the same ident
-ifier (name{table.2}) has been already used, duplicate ignored
+l.50 
+     ]) (./sec_ablation.tex [11pdfTeX warning (ext4): destination with the same
+ identifier (name{table.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.51     \item O
-                ur self-conditioned prior ($\sim$4.4째 error) is at the edge...
-pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
- been already used, duplicate ignored
+l.73 \end{table}
+                pdfTeX warning (ext4): destination with the same identifier (na
+me{table.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.51     \item O
-                ur self-conditioned prior ($\sim$4.4째 error) is at the edge...
-]
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 75.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 75.
-
-Missing character: There is no � in font cmr10!
-) (./sec_theory.tex [5pdfTeX warning (ext4): destination with the same identifi
-er (name{table.4}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.14     \item I
-                nput error 4.4째 $\rightarrow$ output error 3.5째 ($\lambda ...
-pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
- been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.14     \item I
-                nput error 4.4째 $\rightarrow$ output error 3.5째 ($\lambda ...
-]
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 23.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 23.
-
-Missing character: There is no � in font cmr10!
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 23.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 23.
-
-Missing character: There is no � in font cmr10!
-
-LaTeX Warning: Citation `vincent2011' on page 6 undefined on input line 33.
-
-) (./sec_discussion.tex [6]
+l.73 \end{table}
+                ]) (./sec_discussion.tex
 
 LaTeX Warning: Command \textdegree invalid in math mode on input line 11.
 
@@ -531,6 +525,19 @@ LaTeX Warning: Command \textdegree invalid in math mode on input line 11.
 LaTeX Warning: Command \textdegree invalid in math mode on input line 11.
 
 Missing character: There is no � in font cmr10!
+[12pdfTeX warning (ext4): destination with the same identifier (name{table.5}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.18     \item T
+                ranslation improvement is bounded by the unconditioned basel...
+pdfTeX warning (ext4): destination with the same identifier (name{table.6}) has
+ been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.18     \item T
+                ranslation improvement is bounded by the unconditioned basel...
+]
 
 LaTeX Warning: Command \textdegree invalid in math mode on input line 29.
 
@@ -538,51 +545,47 @@ LaTeX Warning: Command \textdegree invalid in math mode on input line 29.
 LaTeX Warning: Command \textdegree invalid in math mode on input line 29.
 
 Missing character: There is no � in font cmr10!
-) [7] (./main.aux)
+) (./sec_conclusion.tex) (./main.bbl [13] [14]) [15] (./main.aux)
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  45909CF86D92BE567E1B82FDD48C456B;4055.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: F6A7ABD2A7271DD6B242B01905EB22DD;5933.
  ) 
 Here is how much of TeX's memory you used:
- 10600 strings out of 478287
- 162095 string characters out of 5849289
- 460170 words of memory out of 5000000
- 28559 multiletter control sequences out of 15000+600000
- 486064 words of font info for 67 fonts, out of 8000000 for 9000
+ 10847 strings out of 478287
+ 165623 string characters out of 5849289
+ 464798 words of memory out of 5000000
+ 28705 multiletter control sequences out of 15000+600000
+ 489542 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,10n,63p,815b,578s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,10n,63p,815b,576s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/share/texmf
 /fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/
-share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/ty
-pe1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/
-sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/s
-hare/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/typ
-e1/public/cm-super/sfrm0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/s
-frm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/sh
-are/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type
-1/public/cm-super/sfti1095.pfb>
-Output written on main.pdf (7 pages, 305833 bytes).
+type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/publ
+ic/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095
+.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/tex
+mf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/publi
+c/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0900.
+pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texm
+f/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public
+/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.p
+fb>
+Output written on main.pdf (15 pages, 394237 bytes).
 PDF statistics:
- 223 PDF objects out of 1000 (max. 8388607)
- 174 compressed objects within 2 object streams
- 77 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 489 PDF objects out of 1000 (max. 8388607)
+ 419 compressed objects within 5 object streams
+ 142 named destinations out of 1000 (max. 500000)
+ 265 words of extra memory for PDF output out of 10000 (max. 10000000)
 

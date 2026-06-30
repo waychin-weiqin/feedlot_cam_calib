@@ -1,75 +1,95 @@
 \section{Method}
 \label{sec:method}
 
-Our method consists of four stages, each building on the previous.
+Our method operates in four stages. Stage~1 applies standard geometric post-processing to establish a baseline estimate. Stages~2--4 constitute our contribution: self-conditioned iterative refinement with decoupled rotation-translation fusion.
 
-\subsection{Stage 1: Baseline Pipeline}
+\subsection{Preliminaries: Geometric Post-Processing (Stage 1)}
+\label{sec:stage1}
 
-Given $K=91$ timesteps of 8-camera images, we run Pi3X to obtain per-timestep poses $\{T_k^c\}_{k=1}^K$ for each camera $c \in \{1,\ldots,8\}$, where each $T_k^c \in \text{SE}(3)$ is defined up to a per-timestep Sim(3) gauge.
+Given $N_t = 91$ timesteps of $N$-camera images, we run Pi3X to obtain per-timestep poses $\{T_k^c\}_{k=1}^{N_t}$ for each camera $c \in \{1,\ldots,N\}$, where each $T_k^c \in \text{SE}(3)$ is defined up to a per-timestep Sim(3) ambiguity (i.e., each timestep's output coordinate frame is arbitrary in position, orientation, and scale). We aggregate these into a single estimate via three standard steps.
 
-\paragraph{Gauge fixing.} We align all timesteps to a reference frame via Sim(3) Procrustes (Umeyama's method), removing the per-timestep scale and frame ambiguity.
+\paragraph{Gauge fixing.} Since each timestep uses an arbitrarily chosen global frame, we align all timesteps to a reference via Sim(3) Procrustes~\cite{umeyama1991}:
+\begin{equation}
+    \{s^*, R^*, \mathbf{t}^*\} = \argmin_{s, R, \mathbf{t}} \sum_{c=1}^N \| s R \, \mathbf{p}_k^c + \mathbf{t} - \mathbf{p}_{\text{ref}}^c \|^2
+\end{equation}
+where $\mathbf{p}_k^c \in \mathbb{R}^3$ denotes the position of camera $c$ at timestep $k$, and $s \in \mathbb{R}^+$, $R \in \text{SO}(3)$, $\mathbf{t} \in \mathbb{R}^3$ parametrise the Sim(3) transform.
 
-\paragraph{Outlier rejection.} For each camera, we project its $K$ estimated positions onto the dominant 2D plane (via PCA) and reject outliers using the Median Absolute Deviation (MAD) with threshold $k=3$.
+\paragraph{Outlier rejection.} For each camera, we project its $N_t$ estimated positions onto the dominant 2D plane (via PCA on camera centres) and reject outliers whose in-plane distance exceeds $3\times$ the Median Absolute Deviation (MAD). Inlier rotations are aggregated via the Fr\'{e}chet mean on SO(3)~\cite{moakher2002}---the rotation minimising the sum of squared geodesic distances to all inlier samples.
 
-\paragraph{Pose graph optimization.} We extract pairwise relative poses from inlier timesteps, then optimize globally via:
+\paragraph{Pose graph optimization.} We extract pairwise relative poses $T_{ij} = (T^i)^{-1} T^j$ from inlier timesteps, computing the Fr\'{e}chet mean rotation and mean translation for each camera pair $(i, j)$. These relative poses serve as edges in a pose graph, weighted by the inverse variance of the per-timestep estimates (edges with higher consistency receive more weight). We then optimise globally via $L_1$ Weiszfeld rotation averaging on SO(3)~\cite{hartley2013} followed by translation averaging with hard co-location constraints for cameras sharing a physical mounting pole.
+
+\paragraph{Motivation for learned refinement.} This pipeline reduces ATE by 10\% (0.177 $\rightarrow$ 0.161) but leaves ARE essentially unchanged (4.37\degree{} $\rightarrow$ 4.39\degree{}). The residual rotation error is systematic---not reducible by further classical aggregation---because the scene provides weak geometric signal (flat pen, repetitive dynamic content). This motivates exploiting Pi3X's conditioning interface to inject prior information.
+
+\subsection{Self-Conditioned Inference (Stage 2)}
+\label{sec:stage2}
+
+Pi3X supports multimodal conditioning: given approximate poses $\hat{T}^c$ and camera intrinsic matrices $\boldsymbol{\Pi}^c \in \mathbb{R}^{3 \times 3}$, it refines its predictions by attending to the provided geometric priors during encoding. We condition on the Stage~1 output:
+\begin{equation}
+    \{T_k^{c,(1)}\} = f_\theta(\text{imgs}_k \mid \hat{T}^c, \boldsymbol{\Pi}^c), \quad k = 1, \ldots, N_t
+\end{equation}
+where $f_\theta$ denotes Pi3X and $\hat{T}^c$ is the Stage~1 estimate converted to the model's input camera ordering.
+
+Applying the same geometric post-processing to $\{T_k^{c,(1)}\}$ yields a refined estimate. We observe:
 \begin{itemize}
-    \item $L_1$ Weiszfeld rotation averaging on SO(3)
-    \item Translation averaging with hard co-location constraints (cameras sharing a pole are forced to the same position)
+    \item ARE improves: 4.39\degree{} $\rightarrow$ 3.49\degree{} (20\% reduction)
+    \item ATE degrades: 0.161 $\rightarrow$ 0.166 (3\% increase)
 \end{itemize}
 
-\subsection{Stage 2: Self-Conditioned Inference}
+Iterating na\"ively amplifies both effects---rotation continues to improve (to $\sim$3.3\degree{}) while translation degrades monotonically (to 0.195 after 5 iterations). Section~\ref{sec:theory} provides a theoretical explanation: the rotation component contracts toward a fixed point on SO(3), while translations diverge due to Sim(3) scale mismatch.
 
-Pi3X supports multimodal conditioning: given poses $\hat{T}^c$ and intrinsics $K^c$, it refines its predictions. We condition on the pipeline output from Stage~1:
-\begin{equation}
-    \{T_k^{c,(1)}\} = \text{Pi3X}(\text{imgs}_k \mid \hat{T}^c, K^c), \quad k = 1, \ldots, K
-\end{equation}
-where $\hat{T}^c$ is the Stage~1 estimate converted to video camera order.
+\subsection{Decoupled Hybrid Fusion (Stage 3)}
+\label{sec:stage3}
 
-\subsection{Stage 3: Hybrid Fusion}
-
-We observe that conditioned inference improves rotation but degrades translation (Section~\ref{sec:ablation}). To exploit both, we fuse edges from both sources in the pose graph:
+Since conditioned inference improves rotation but degrades translation, we decouple them in the pose graph by sourcing edges from different inference runs. Let $R_{ij}$ and $\mathbf{t}_{ij}$ denote the relative rotation and translation from camera $i$ to camera $j$, computed as the mean over inlier timesteps. We construct fused edges:
 
 \begin{equation}
-    \tilde{T}_{ij}^{\text{fused}} = \begin{pmatrix} R_{ij}^{\text{cond}} & t_{ij}^{\text{uncond}} \\ 0 & 1 \end{pmatrix}
+    \tilde{T}_{ij}^{\text{fused}} = \begin{pmatrix} R_{ij}^{\text{cond}} & \mathbf{t}_{ij}^{\text{uncond}} \\ \mathbf{0}^\top & 1 \end{pmatrix}
 \end{equation}
 
-where $R_{ij}^{\text{cond}}$ is the mean relative rotation from conditioned inference and $t_{ij}^{\text{uncond}}$ is the mean relative translation from unconditioned inference. Edge weights are taken as $w_{ij} = \max(w_{ij}^{\text{cond}}, w_{ij}^{\text{uncond}})$.
+where $R_{ij}^{\text{cond}}$ is the mean relative rotation extracted from conditioned inference (Stage~2) and $\mathbf{t}_{ij}^{\text{uncond}}$ is the mean relative translation from the original unconditioned run (Stage~1). Edge weights $w_{ij}$ (inverse variance of the per-timestep relative pose estimates) are taken as $w_{ij} = \max(w_{ij}^{\text{cond}}, w_{ij}^{\text{uncond}})$.
 
-The initial pose for optimization uses conditioned rotations with unconditioned translations:
+The initial pose for graph optimization similarly uses conditioned rotations with unconditioned translations:
 \begin{equation}
-    T_{\text{init}}^c = \begin{pmatrix} R_{\text{cond}}^c & t_{\text{uncond}}^c \\ 0 & 1 \end{pmatrix}
+    T_{\text{init}}^c = \begin{pmatrix} R_{\text{cond}}^c & \mathbf{t}_{\text{uncond}}^c \\ \mathbf{0}^\top & 1 \end{pmatrix}
 \end{equation}
 
-\subsection{Stage 4: Monte Carlo Iterative Refinement}
+This yields ARE = 3.45\degree{} (rotation improved) with ATE = 0.159 (translation preserved)---capturing the benefits of both sources.
 
-To further improve rotation estimates, we iterate the hybrid fusion with stochastic perturbation:
+\subsection{Monte Carlo Iterative Refinement (Stage 4)}
+\label{sec:stage4}
 
-\begin{algorithm}[h]
+To further improve rotation estimates, we iterate the hybrid fusion with stochastic perturbation of the conditioning signal. The perturbation serves two purposes: (i) it explores the local neighbourhood of the current estimate, sampling multiple poses from the model's ``denoising basin''; (ii) it provides diversity across ensemble members, reducing the variance of the averaged rotation edges.
+
+\begin{algorithm}[t]
 \caption{Iterated Hybrid MC Refinement}
 \label{alg:itermc}
 \begin{algorithmic}[1]
-\REQUIRE Unconditioned pipeline output $\hat{T}^c$, images, intrinsics
-\REQUIRE Noise parameters $\sigma_R, \sigma_t$; samples $S$; iterations $M$
-\STATE $T_{\text{current}} \leftarrow \hat{T}^c$
-\STATE Compute unconditioned translation edges $\{t_{ij}^{\text{uncond}}, w_{ij}^t\}$
+\REQUIRE Pipeline estimate $\hat{T}^c$, images, intrinsics $\boldsymbol{\Pi}^c$
+\REQUIRE Noise: $\sigma_R$, $\sigma_t$; samples: $S$; iterations: $M$
+\STATE $T_{\text{curr}} \leftarrow \hat{T}^c$
+\STATE Compute unconditioned edges $\{\mathbf{t}_{ij}^{\text{uncond}}, w_{ij}^t\}$ \COMMENT{fixed throughout}
 \FOR{$m = 1$ to $M$}
     \FOR{$s = 1$ to $S$}
-        \STATE $T_s \leftarrow \text{AddNoise}(T_{\text{current}}, \sigma_R, \sigma_t)$
-        \STATE $\{T_{k,s}^c\} \leftarrow \text{Pi3X}(\text{imgs} \mid T_s, K^c)$ for all timesteps
-        \STATE $\hat{T}_s^c \leftarrow \text{Pipeline}(\{T_{k,s}^c\})$ \COMMENT{gauge fix + outlier rej}
+        \STATE $T_s^c \leftarrow \text{Perturb}(T_{\text{curr}}^c, \sigma_R, \sigma_t)$ for all $c$
+        \STATE $\{T_{k,s}^c\} \leftarrow f_\theta(\text{imgs} \mid T_s, \boldsymbol{\Pi}^c)$ for all $k$
+        \STATE $\hat{T}_s^c \leftarrow \text{Pipeline}(\{T_{k,s}^c\})$
     \ENDFOR
-    \STATE Extract rotation edges $\{R_{ij}^{\text{cond}}, w_{ij}^R\}$ from all $S \times K$ aligned poses
-    \STATE Fuse: $\tilde{T}_{ij} = (R_{ij}^{\text{cond}}, t_{ij}^{\text{uncond}})$
-    \STATE $T_{\text{opt}} \leftarrow \text{PoseGraph}(\bar{T}_{\text{init}}, \tilde{T}_{ij}, \max(w^R, w^t))$
-    \STATE $T_{\text{current}} \leftarrow (R_{\text{opt}}, t_{\text{uncond}})$ \COMMENT{preserve translations}
+    \STATE Extract rotation edges $\{R_{ij}^{\text{cond}}, w_{ij}^R\}$ from pooled aligned poses
+    \STATE Fuse: $\tilde{T}_{ij} = (R_{ij}^{\text{cond}}, \mathbf{t}_{ij}^{\text{uncond}})$
+    \STATE $T_{\text{opt}} \leftarrow \text{PoseGraph}(\bar{T}_{\text{init}}, \tilde{T}_{ij}, w_{ij})$
+    \STATE $T_{\text{curr}} \leftarrow (R_{\text{opt}}, \mathbf{t}_{\text{uncond}})$ \COMMENT{anchor translations}
 \ENDFOR
 \RETURN $T_{\text{opt}}$
 \end{algorithmic}
 \end{algorithm}
 
-Key design choices:
+The $\text{Perturb}$ operation applies independent Gaussian noise to each camera's pose: rotation is perturbed via the exponential map $R' = R \cdot \exp([\boldsymbol{\epsilon}_R]_\times)$ where $\boldsymbol{\epsilon}_R \sim \mathcal{N}(\mathbf{0}, \sigma_R^2 I_3)$, and translation is perturbed additively $\mathbf{t}' = \mathbf{t} + \boldsymbol{\epsilon}_t$ where $\boldsymbol{\epsilon}_t \sim \mathcal{N}(\mathbf{0}, \sigma_t^2 I_3)$.
+
+\paragraph{Design choices.}
 \begin{itemize}
-    \item \textbf{Noise}: Gaussian perturbation with $\sigma_R = 2°$ (axis-angle) and $\sigma_t = 0.05$ (isotropic)
-    \item \textbf{Translation anchoring}: Translations are always sourced from the unconditioned baseline, never updated from conditioned outputs
-    \item \textbf{Early stopping}: Monitor ARE convergence; terminate when improvement $< 0.1°$
+    \item \textbf{Noise magnitude}: $\sigma_R = 2\degree$ (axis-angle standard deviation), $\sigma_t = 0.05$ (isotropic, in scene units). These are chosen to stay within the model's contraction basin ($< 5\degree$; see Section~\ref{sec:ablation}).
+    \item \textbf{Translation anchoring}: Translations are \emph{never} updated from conditioned outputs---only from the original unconditioned baseline. This is the key invariant that prevents Sim(3) drift.
+    \item \textbf{Early stopping}: Terminate when ARE improvement between iterations falls below $0.1\degree$, or after $M=3$ iterations (empirically sufficient; see Section~\ref{sec:ablation}).
 \end{itemize}
+
+\paragraph{Probabilistic interpretation.} Each perturbed conditioned inference produces an approximate sample from the posterior $p(R \mid \text{imgs})$. Pooling $S \times N_t$ aligned poses across samples before extracting rotation edges estimates the posterior mean over relative rotations, reducing variance by $O(1/\sqrt{S})$. We formalise this connection to denoising score matching in Section~\ref{sec:theory}.

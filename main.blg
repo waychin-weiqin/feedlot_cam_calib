@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: plain.bst
+Database file #1: references.bib
+Warning--I didn't find a database entry for "umeyama1991"
+Warning--I didn't find a database entry for "moakher2002"
+Warning--can't use both volume and number fields in chatterjee2018
+Warning--empty booktitle in zhang2000
+Warning--can't use both volume and number fields in zhang2000
+You've used 17 entries,
+            2118 wiz_defined-function locations,
+            589 strings with 6566 characters,
+and the built_in function-call counts, 6227 in all, are:
+= -- 564
+> -- 354
+< -- 5
++ -- 142
+- -- 122
+* -- 427
+:= -- 1026
+add.period$ -- 52
+call.type$ -- 17
+change.case$ -- 111
+chr.to.int$ -- 0
+cite$ -- 20
+duplicate$ -- 250
+empty$ -- 494
+format.name$ -- 122
+if$ -- 1301
+int.to.chr$ -- 0
+int.to.str$ -- 17
+missing$ -- 17
+newline$ -- 88
+num.names$ -- 34
+pop$ -- 147
+preamble$ -- 1
+purify$ -- 94
+quote$ -- 0
+skip$ -- 165
+stack$ -- 0
+substring$ -- 273
+swap$ -- 60
+text.length$ -- 5
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 68
+warning$ -- 3
+while$ -- 49
+width$ -- 19
+write$ -- 180
+(There were 5 warnings)

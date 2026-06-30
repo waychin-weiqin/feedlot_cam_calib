@@ -1,53 +1,74 @@
-\section{Theoretical Interpretation}
+\section{Theoretical Analysis}
 \label{sec:theory}
+
+We provide a formal interpretation of the self-conditioning dynamics observed in Section~\ref{sec:method}, explaining why rotation converges while translation diverges, and connecting the Monte Carlo perturbation strategy to established frameworks.
 
 \subsection{Contraction Mapping on SO(3)}
 
-Let $f: \text{SO}(3)^N \rightarrow \text{SO}(3)^N$ denote the mapping from conditioning rotations to Pi3X's output rotations (after pipeline processing). If $f$ is a contraction, i.e.,
+Let $f: \text{SO}(3)^N \rightarrow \text{SO}(3)^N$ denote the composite mapping from conditioning rotations to Pi3X's output rotations after pipeline processing (gauge fix, outlier rejection, Fréchet mean). We define the geodesic distance on SO(3) as:
+\begin{equation}
+    d_{\text{SO}(3)}(R_1, R_2) = \|\log(R_1^\top R_2)\|_F
+\end{equation}
+where $\log: \text{SO}(3) \rightarrow \mathfrak{so}(3)$ is the matrix logarithm. This equals the angle of the relative rotation $R_1^\top R_2$.
+
+If $f$ is a contraction mapping, i.e., there exists $\lambda < 1$ such that for all $R$ in a neighbourhood of the true rotations $R^*$:
 \begin{equation}
     d_{\text{SO}(3)}(f(R), R^*) \leq \lambda \cdot d_{\text{SO}(3)}(R, R^*)
 \end{equation}
-for some $\lambda < 1$ and true rotations $R^*$, then by the Banach fixed-point theorem, iteration $R^{(n+1)} = f(R^{(n)})$ converges to a fixed point.
+then by the Banach fixed-point theorem, the iteration $R^{(n+1)} = f(R^{(n)})$ converges to a unique fixed point $R^\infty$ satisfying $f(R^\infty) = R^\infty$.
 
-\paragraph{Empirical evidence.} From the noise robustness experiment:
+\paragraph{Empirical measurement.} We measure the contraction rate by feeding GT poses corrupted with known noise levels and comparing input error to output error (Section~\ref{sec:ablation}, Table~\ref{tab:noise_robustness}):
 \begin{itemize}
-    \item Input error 4.4° $\rightarrow$ output error 3.5° ($\lambda \approx 0.80$)
-    \item Input error 5.0° $\rightarrow$ output error 3.3° ($\lambda \approx 0.67$)
-    \item Input error 2.0° $\rightarrow$ output error 1.6° ($\lambda \approx 0.80$)
+    \item Input error 4.4\degree{} $\rightarrow$ output error 3.5\degree{} ($\lambda \approx 0.80$)
+    \item Input error 5.0\degree{} $\rightarrow$ output error 3.3\degree{} ($\lambda \approx 0.67$)
+    \item Input error 2.0\degree{} $\rightarrow$ output error 1.6\degree{} ($\lambda \approx 0.80$)
 \end{itemize}
 
-The contraction rate is approximately $\lambda \approx 0.8$ in the 2--5° regime, predicting convergence to a fixed point at:
+The contraction rate is approximately $\lambda \approx 0.8$ in the 2--5\degree{} regime. This predicts convergence to a fixed point at:
 \begin{equation}
-    \text{ARE}^* \approx \frac{\lambda}{1-\lambda} \cdot \epsilon_{\text{model}} \approx 4 \cdot \epsilon_{\text{model}}
+    \text{ARE}^* = \frac{\lambda}{1-\lambda} \cdot \epsilon_{\text{irr}} \approx 4 \cdot \epsilon_{\text{irr}}
+    \label{eq:fixed_point}
 \end{equation}
-where $\epsilon_{\text{model}}$ is Pi3X's irreducible error. With $\text{ARE}^* \approx 3.1°$, this gives $\epsilon_{\text{model}} \approx 0.8°$, consistent with the 1.2° achieved under perfect GT conditioning (which includes pipeline noise).
+where $\epsilon_{\text{irr}}$ is the model's irreducible error (the residual even with perfect conditioning). With $\text{ARE}^* \approx 3.1\degree{}$ observed experimentally, this gives $\epsilon_{\text{irr}} \approx 0.8\degree{}$, consistent with the 1.2\degree{} achieved under perfect GT conditioning (which includes additional pipeline processing noise).
 
-\paragraph{Failure for translation.} Pi3X outputs poses in Sim(3), not SE(3). The translation component $t^c$ is defined only relative to the per-run scale. Feeding translations back as SE(3) conditioning introduces a scale mismatch that does not contract:
+\paragraph{Basin of attraction.} The contraction property holds only within a finite neighbourhood of $R^*$. Our noise robustness experiments (Section~\ref{sec:ablation}) show that conditioning with $>10\degree{}$ error causes catastrophic failure (output error jumps to 180\degree{}). This defines a basin of attraction of approximately $\pm 10\degree{}$ around the true solution---our initial estimate (4.4\degree{} error) lies safely within it.
+
+\subsection{Failure of Contraction for Translation}
+
+Pi3X outputs poses in Sim(3), not SE(3). The translation component $\mathbf{t}^c$ is meaningful only relative to the per-run scale $s$. When fed back as SE(3) conditioning, a scale mismatch accumulates:
 \begin{equation}
-    t^{(n+1)} = s^{(n)} \cdot f_t(R^{(n)}, t^{(n)}) + \text{bias}
+    \mathbf{t}^{(n+1)} = s^{(n)} \cdot g(\mathbf{t}^{(n)}, R^{(n)}) + \boldsymbol{\beta}
 \end{equation}
-where $s^{(n)}$ is the unknown per-run scale. This explains why ATE degrades monotonically under na\"ive iteration.
-
-\subsection{Denoising Score Matching Interpretation}
-
-The Monte Carlo perturbation strategy connects to denoising score matching~\cite{vincent2011}. If Pi3X was trained with noisy pose conditioning (likely, for robustness), then conditioned inference implicitly computes:
+where $s^{(n)} \neq 1$ in general and $\boldsymbol{\beta}$ represents systematic bias from the conditioning mechanism. Since the scale factor $s^{(n)}$ varies per iteration and is not corrected, this does not satisfy contraction:
 \begin{equation}
-    \mathbb{E}[R^* \mid R + \epsilon, \text{imgs}] \approx R + \sigma^2 \nabla_R \log p(R \mid \text{imgs})
+    \|\mathbf{t}^{(n+1)} - \mathbf{t}^*\| \not\leq \lambda \|\mathbf{t}^{(n)} - \mathbf{t}^*\|
 \end{equation}
 
-By running $S$ perturbations $\{R + \epsilon_s\}_{s=1}^S$ and averaging the outputs:
+This analysis motivates our hybrid fusion strategy: rotation contracts and should be iterated; translation does not and should be anchored to the unconditioned estimate.
+
+\subsection{Monte Carlo Perturbation as Posterior Sampling}
+
+The stochastic perturbation in Stage~4 admits an interpretation through the lens of denoising score matching~\cite{vincent2011}. Under the hypothesis that Pi3X's conditioning mechanism was trained with noisy pose inputs (a common data augmentation for robustness), conditioned inference approximates the posterior mean:
 \begin{equation}
-    \bar{R} = \text{Fr\'{e}chetMean}\left(\{f(R + \epsilon_s)\}_{s=1}^S\right)
+    f_\theta(R + \boldsymbol{\epsilon}) \approx \mathbb{E}[R^* \mid R + \boldsymbol{\epsilon}, \text{imgs}]
 \end{equation}
-we approximate the posterior mean $\mathbb{E}[R^* \mid \text{imgs}]$ via Monte Carlo integration. This is a form of Langevin Monte Carlo on the rotation manifold, where each conditioned inference step provides a sample from the posterior.
 
-\subsection{Connection to Diffusion Models}
+By running $S$ perturbations $\{R \cdot \exp([\boldsymbol{\epsilon}_s]_\times)\}_{s=1}^S$ and computing the Fr\'{e}chet mean of the outputs:
+\begin{equation}
+    \bar{R} = \text{Fr\'{e}chetMean}\left(\{f_\theta(R \cdot \exp([\boldsymbol{\epsilon}_s]_\times))\}_{s=1}^S\right)
+\end{equation}
+we approximate the marginal posterior mean $\mathbb{E}[R^* \mid \text{imgs}]$ via Monte Carlo integration over the perturbation distribution. The variance of this estimator decreases as $O(1/\sqrt{S})$.
 
-The iterative refinement process resembles a single-step denoising diffusion:
+\paragraph{Remark.} This interpretation relies on the assumption that Pi3X was trained with noisy conditioning. While we cannot verify this from the published model, the empirical contraction behaviour (smooth error reduction rather than mode collapse) is consistent with a model that has learned to denoise its conditioning inputs. The interpretation should be understood as a motivating analogy rather than a proven equivalence.
+
+\subsection{Connection to Iterative Denoising}
+
+The overall procedure---starting from a noisy estimate, applying a learned map that moves closer to the truth, and iterating---shares the structure of denoising diffusion~\cite{song2021}:
 \begin{enumerate}
-    \item Start with a noisy estimate $R^{(0)}$ (unconditioned Pi3X output)
-    \item Apply a learned denoiser $f$ conditioned on the images
-    \item The denoiser moves the estimate toward the clean manifold
+    \item Start with a noisy estimate $R^{(0)}$ (unconditioned Pi3X output, $\sim$4.4\degree{} error)
+    \item Apply a learned denoiser $f_\theta$ conditioned on images
+    \item The denoiser contracts the estimate toward the clean manifold
+    \item Iterate 2--3 times until convergence
 \end{enumerate}
 
-Unlike standard diffusion which requires many small steps from pure noise, our setting starts close to the solution ($\sim$4° error) and requires only 2--3 denoising steps. The key difference is that our ``noise schedule'' is not designed but inherited from Pi3X's prediction uncertainty.
+The key differences from standard diffusion are: (i) we start close to the solution rather than from pure noise, requiring only 2--3 steps; (ii) we do not train a noise-level-conditional model; and (iii) convergence is restricted to the rotation subgroup, necessitating the hybrid decoupling. This suggests a broader principle: \emph{pretrained geometry models with conditioning interfaces can serve as implicit denoisers at test time, even without explicit denoising training.}
