@@ -1,7 +1,34 @@
 \section{Ablation Studies}
 \label{sec:ablation}
 
-We isolate the contribution of each design decision through five ablation experiments.
+We isolate the contribution of each design decision through six ablation experiments.
+
+\subsection{Mechanism Identification: Layer Ablation}
+\label{sec:ablation_mechanism}
+
+Pi3X's conditioning interface operates through two pathways: (1)~the \emph{encode path}, which constructs ray embeddings and scale normalisation from conditioning poses and adds them to image features before decoding; and (2)~the \emph{decode path}, consisting of five PoseInjectBlocks that inject pose information via Projective Rotary Position Encoding (PRoPE) into decoder attention layers. To identify which pathway drives the self-refinement benefit, we ablate each independently.
+
+\begin{table}[h]
+\centering
+\caption{Layer ablation identifying the active conditioning pathway. Zeroing all five decode-path PoseInjectBlocks produces identical accuracy to leaving them active, while removing rotation or translation from the encode path causes catastrophic failure.}
+\label{tab:mechanism}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Configuration & ARE (\degree{})$\downarrow$ & $\Delta$ vs baseline \\
+\midrule
+Full conditioning (all active) & 3.85 & $-$12\% \\
+Decode path zeroed (all 5 PoseInjectBlocks = 0) & 3.84 & $-$12\% \\
+\midrule
+Rotation-only conditioning ($\mathbf{t} = \mathbf{0}$) & 116 & catastrophic \\
+Translation-only conditioning ($R = I$) & 116 & catastrophic \\
+No conditioning (unconditioned baseline) & 4.39 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Key findings.} (1)~The decode-path PoseInjectBlocks contribute \emph{nothing}: zeroing all five blocks yields ARE\,=\,3.84\degree{}, statistically identical to full conditioning (3.85\degree{}). The conditioning benefit resides entirely in the encode path. (2)~Both rotation and translation are required for encode-path conditioning---either alone causes catastrophic failure (116\degree{}). This is because the projection matrix $P = \text{lift}(K) \cdot [R \mid \mathbf{t}]$ requires both components to construct valid ray embeddings. (3)~Injection norms from PoseInjectBlocks decay across iterations (5.90 $\rightarrow$ 5.82 $\rightarrow$ 5.79), confirming that the blocks become progressively more dormant as the encode-path features improve---they are not contributing to the refinement, but responding to it.
+
+\paragraph{Attention entropy.} Cross-view attention entropy decreases with conditioning (higher certainty in feature matching), but this is a \emph{consequence} of better encode-path features, not a cause of improved poses. The decode-path blocks that modulate attention are inert.
 
 \subsection{Effect of Hybrid Decoupling}
 
@@ -94,10 +121,10 @@ Iter & Sim(3) ATE & Sim(3) ARE & Unconstrained ATE & Unconstrained ARE \\
 
 The near-identical degradation trajectories confirm that translation failure is not a scale problem but a structural one: Pi3X's conditioning mechanism introduces systematic translational bias that is independent of the output's global scale. This motivates our decision to anchor translations entirely to the unconditioned source rather than attempting to correct the conditioned output.
 
-\subsection{Monte Carlo Posterior Sampling}
+\subsection{Monte Carlo Perturbation}
 \label{sec:ablation_S}
 
-Self-conditioning admits an interpretation as approximate posterior inference: by perturbing the conditioning poses and averaging the resulting outputs, one performs Monte Carlo integration over the model's implicit posterior $p(R^* \mid R + \boldsymbol{\epsilon}, \text{imgs})$. If this posterior has non-trivial variance, averaging $S$ samples should reduce error as $O(1/\sqrt{S})$.
+If the conditioning mechanism operated stochastically (e.g., via attention routing sensitive to pose perturbations), one might expect Monte Carlo integration---perturbing conditioning poses and averaging outputs---to reduce error as $O(1/\sqrt{S})$ by sampling the model's implicit posterior $p(R^* \mid R + \boldsymbol{\epsilon}, \text{imgs})$.
 
 We implement MC sampling with three design considerations that are critical for correctness in the Sim(3) setting. First, each perturbed sample produces poses in a different arbitrary Sim(3) frame; we apply Sim(3) Procrustes alignment across samples before aggregation. Second, rather than running the full pipeline independently per sample (which discards cross-sample information), we pool all $S \times K$ observations into a single enlarged dataset and run one pipeline pass on the full pool. Third, we use \emph{structured perturbation}: a shared random rotation applied to all cameras simultaneously, preserving the inter-camera constellation geometry that Pi3X exploits, with only small per-camera residuals ($\sigma_R / 5$) for diversity.
 
@@ -128,5 +155,5 @@ $\sigma_R$ (\degree{}) & $S$ & ARE (\degree{})$\downarrow$ & ATE$\downarrow$ & C
 
 The results are unambiguous: no multi-sample configuration outperforms deterministic single-pass conditioning. The best cases ($S=8$, $\sigma_R \in \{0.5\degree{}, 2.0\degree{}\}$) match $S=1$ at 3.63\degree{} but never exceed it, despite 4.5$\times$ additional compute. Larger perturbation magnitudes slightly degrade intermediate $S$ values (e.g., $S=2$ at $\sigma_R=2\degree{}$ yields 3.67\degree{}), indicating that the perturbation introduces error without eliciting useful posterior diversity.
 
-This finding reveals that the model's conditional posterior is \emph{effectively a point mass}: all perturbations within the basin of attraction converge to the same output, leaving no variance for MC averaging to reduce. The $O(1/\sqrt{S})$ improvement predicted by the posterior sampling interpretation operates on a negligible base variance ($<$0.02\degree{} angular standard deviation across samples). Deterministic iteration ($S=1$, $M=2$) remains strictly preferable, achieving ARE\,=\,3.19\degree{} at 3$\times$ cost.
+This finding is consistent with the block coordinate descent interpretation (Section~\ref{sec:bcd}): since the conditioning mechanism operates through deterministic encode-path features (ray embeddings and scale normalisation), all perturbations within the basin of attraction produce the same enriched features and converge to the same output. The posterior is effectively a point mass (angular standard deviation $<$0.02\degree{} across samples), leaving no variance for MC averaging to reduce. Deterministic iteration ($S=1$, $M=2$) remains strictly preferable, achieving ARE\,=\,3.19\degree{} at 3$\times$ cost.
 

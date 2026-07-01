@@ -1,7 +1,7 @@
 \section{Theoretical Analysis}
 \label{sec:theory}
 
-We provide a formal interpretation of the self-conditioning dynamics observed in Section~\ref{sec:method}, explaining why rotation converges while translation diverges, and connecting the Monte Carlo perturbation strategy to established frameworks.
+We provide a formal interpretation of the self-conditioning dynamics observed in Section~\ref{sec:method}, explaining why rotation converges while translation diverges, and identifying the mechanistic pathway through which conditioning operates.
 
 \subsection{Contraction Mapping on SO(3)}
 
@@ -39,36 +39,32 @@ Pi3X outputs poses in Sim(3), not SE(3). The translation component $\mathbf{t}^c
 \begin{equation}
     \mathbf{t}^{(n+1)} = s^{(n)} \cdot g(\mathbf{t}^{(n)}, R^{(n)}) + \boldsymbol{\beta}
 \end{equation}
-where $s^{(n)} \neq 1$ in general and $\boldsymbol{\beta}$ represents systematic bias from the conditioning mechanism. Since the scale factor $s^{(n)}$ varies per iteration and is not corrected, this does not satisfy contraction:
+where $s^{(n)} \neq 1$ in general and $\boldsymbol{\beta}$ represents systematic bias. Since the scale factor $s^{(n)}$ varies per iteration and is not corrected, this does not satisfy contraction:
 \begin{equation}
     \|\mathbf{t}^{(n+1)} - \mathbf{t}^*\| \not\leq \lambda \|\mathbf{t}^{(n)} - \mathbf{t}^*\|
 \end{equation}
 
+\paragraph{Mechanistic explanation.} The encode path uses conditioning translations to normalise depth scale: $\mathbf{t}' = \mathbf{t} / \text{median}(\|\mathbf{t}\|)$ before constructing ray embeddings. Since Pi3X outputs in Sim(3), the scale of the output translation is arbitrary relative to the conditioning scale. Feeding output translations back as input creates a compounding scale mismatch---each iteration's normalisation references a different implicit scale, causing monotonic drift. Rotation is immune because it is scale-invariant: the rotation subgroup of Sim(3) equals that of SE(3).
+
 This analysis motivates our hybrid fusion strategy: rotation contracts and should be iterated; translation does not and should be anchored to the unconditioned estimate.
 
-\subsection{Monte Carlo Perturbation as Posterior Sampling}
+\subsection{Block Coordinate Descent Interpretation}
+\label{sec:bcd}
 
-Self-conditioning admits an interpretation through the lens of denoising score matching~\cite{vincent2011}. Under the hypothesis that Pi3X's conditioning mechanism was trained with noisy pose inputs (a common data augmentation for robustness), conditioned inference approximates the posterior mean:
-\begin{equation}
-    f_\theta(R + \boldsymbol{\epsilon}) \approx \mathbb{E}[R^* \mid R + \boldsymbol{\epsilon}, \text{imgs}]
-\end{equation}
-
-By running $S$ structured perturbations $\{R \cdot \exp([\boldsymbol{\epsilon}_s]_\times)\}_{s=1}^S$ and pooling all $S \times K$ observations into a single pipeline pass (with Sim(3) alignment across samples to resolve gauge ambiguity), one approximates the marginal posterior mean $\mathbb{E}[R^* \mid \text{imgs}]$ via Monte Carlo integration:
-\begin{equation}
-    \bar{R} = \text{Pipeline}\left(\bigcup_{s=1}^S \{f_\theta(R \cdot \exp([\boldsymbol{\epsilon}_s]_\times))\}\right)
-\end{equation}
-The variance of this estimator decreases as $O(1/\sqrt{S})$ when the posterior has non-trivial spread.
-
-\paragraph{Empirical verdict.} Despite the theoretical motivation, our experiments demonstrate that MC perturbation provides no measurable benefit in this regime (Section~\ref{sec:ablation_S}). We carefully design the sampling procedure to preserve inter-camera geometry (structured perturbation with shared global rotation), resolve per-sample gauge ambiguity (Sim(3) alignment before pooling), and retain cross-sample information (pool-then-pipeline rather than pipeline-per-sample). Even so, the best multi-sample configuration ($S=8$) merely matches single-sample performance. The explanation is that the model's conditional posterior $p(R^* \mid R + \boldsymbol{\epsilon}, \text{imgs})$ is so tightly concentrated (angular standard deviation $<$0.02\degree{} across samples) that the $O(1/\sqrt{S})$ variance reduction operates on a negligible quantity. The conditioning signal places the model in a near-deterministic regime where all perturbations within the basin of attraction converge to the same output. This does not invalidate the posterior sampling interpretation---it reveals that the posterior is unimodal with negligible variance, making deterministic iteration ($S=1$) strictly preferable.
-
-\subsection{Connection to Iterative Denoising}
-
-The overall procedure---starting from a noisy estimate, applying a learned map that moves closer to the truth, and iterating---shares the structure of denoising diffusion~\cite{song2021}:
+Self-conditioning admits a natural interpretation as block coordinate descent (BCD)~\cite{wright2015} on an implicit joint objective over poses and features. Let $\mathcal{F}(R, \phi)$ denote the implicit objective that Pi3X minimises during pretraining, where $R \in \text{SO}(3)^N$ are camera rotations and $\phi$ are internal feature representations. Each iteration alternates between two steps:
 \begin{enumerate}
-    \item Start with a noisy estimate $R^{(0)}$ (unconditioned Pi3X output, $\sim$4.4\degree{} error)
-    \item Apply a learned denoiser $f_\theta$ conditioned on images
-    \item The denoiser contracts the estimate toward the clean manifold
-    \item Iterate 2--3 times until convergence
+    \item \textbf{Feature update} (given poses): The encode path constructs ray embeddings $\mathbf{r}_{i} = \text{lift}(\boldsymbol{\Pi}^c) \cdot [R^{(n)} \mid \mathbf{t}]$ and normalises depth scale using $\|\mathbf{t}\|$, producing improved features $\phi^{(n+1)} = h(R^{(n)}, \text{imgs})$.
+    \item \textbf{Pose update} (given features): The decoder estimates poses from the enriched features: $R^{(n+1)} = g(\phi^{(n+1)})$.
 \end{enumerate}
 
-The key differences from standard diffusion are: (i) we start close to the solution rather than from pure noise, requiring only 2--3 steps; (ii) we do not train a noise-level-conditional model; and (iii) convergence is restricted to the rotation subgroup, necessitating the hybrid decoupling. This suggests a broader principle: \emph{pretrained geometry models with conditioning interfaces can serve as implicit denoisers at test time, even without explicit denoising training.}
+The composite map $f = g \circ h$ maps conditioning poses to output poses. Contraction ($\lambda < 1$) arises because ray embeddings provide angular priors that collapse directional ambiguity in the feature space---each iteration's features are strictly more informative than the previous iteration's, yielding strictly better pose estimates until the fixed point.
+
+\paragraph{Why rotation contracts but translation diverges.} Ray embeddings encode pixel-to-3D \emph{direction}, which depends on rotation but is scale-invariant. Better rotation priors yield better directional features, which yield better rotation estimates---a self-reinforcing loop with diminishing returns (contraction). Translation enters only through scale normalisation, where the Sim(3) ambiguity prevents convergence (Section~4.2). This explains the $\lambda \approx 0.8$ contraction rate as the composite Lipschitz constant of the encode-decode loop restricted to SO(3).
+
+\paragraph{Consistency with ablation evidence.} The BCD interpretation predicts that the active mechanism is the encode path (where poses $\rightarrow$ features), not the decode-path PoseInjectBlocks (where poses modulate attention). Our layer ablation (Section~\ref{sec:ablation_mechanism}) confirms this: zeroing all five PoseInjectBlocks produces identical accuracy to leaving them active (ARE 3.84\degree{} vs 3.85\degree{}), while removing encode-path conditioning entirely (via identity poses) eliminates all improvement. The decode-path blocks are vestigial for this task.
+
+\subsection{Posterior Unimodality Under Self-Conditioning}
+
+One might expect that perturbing the conditioning signal and averaging---Monte Carlo integration over the model's implicit posterior $p(R^* \mid R + \boldsymbol{\epsilon}, \text{imgs})$---would provide additional variance reduction. If the posterior has non-trivial spread, averaging $S$ samples should reduce error as $O(1/\sqrt{S})$.
+
+However, the BCD interpretation explains why this fails: since the mechanism is deterministic feature enrichment (ray embeddings from poses), not stochastic sampling, all perturbations within the basin of attraction produce the same enriched features and converge to the same output. The posterior is effectively a point mass (angular standard deviation $<$0.02\degree{} across samples), leaving no variance for MC averaging to reduce. Section~\ref{sec:ablation_S} confirms empirically that $S=1$ is optimal.

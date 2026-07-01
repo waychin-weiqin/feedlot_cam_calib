@@ -1,7 +1,7 @@
 \section{Method}
 \label{sec:method}
 
-Our method operates in four stages. Stage~1 applies standard geometric post-processing to establish a baseline estimate. Stages~2--4 constitute our contribution: self-conditioned iterative refinement with decoupled rotation-translation fusion.
+Our method operates in three stages. Stage~1 applies standard geometric post-processing to establish a baseline estimate. Stages~2--3 constitute our contribution: self-conditioned iterative refinement with decoupled rotation-translation fusion.
 
 \subsection{Preliminaries: Geometric Post-Processing (Stage 1)}
 \label{sec:stage1}
@@ -23,7 +23,7 @@ where $\mathbf{p}_k^c \in \mathbb{R}^3$ denotes the position of camera $c$ at ti
 \subsection{Self-Conditioned Inference (Stage 2)}
 \label{sec:stage2}
 
-Pi3X supports multimodal conditioning: given approximate poses $\hat{T}^c$ and camera intrinsic matrices $\boldsymbol{\Pi}^c \in \mathbb{R}^{3 \times 3}$, it refines its predictions by attending to the provided geometric priors during encoding. We condition on the Stage~1 output:
+Pi3X supports multimodal conditioning: given approximate poses $\hat{T}^c$ and camera intrinsic matrices $\boldsymbol{\Pi}^c \in \mathbb{R}^{3 \times 3}$, it refines its predictions via two encode-path mechanisms: (1)~ray embeddings that convert pixel coordinates to 3D directions using intrinsics and poses, added to image features before decoding; and (2)~scale normalisation that uses pose translations to set proper depth scale. We verify empirically that the decode-path PoseInjectBlocks (PRoPE attention injection) contribute nothing when ablated (Section~\ref{sec:ablation_mechanism}). We condition on the Stage~1 output:
 \begin{equation}
     \{T_k^{c,(1)}\} = f_\theta(\text{imgs}_k \mid \hat{T}^c, \boldsymbol{\Pi}^c), \quad k = 1, \ldots, N_t
 \end{equation}
@@ -50,9 +50,9 @@ The initial pose for graph optimization similarly uses conditioned rotations wit
 This yields ARE = 3.45\degree{} (rotation improved) with ATE = 0.159 (translation preserved)---capturing the benefits of both sources.
 
 \subsection{Iterated Hybrid Refinement}
-\label{sec:stage4}
+\label{sec:iteration}
 
-Since a single conditioned pass reduces rotation error by 20\%, a natural question is whether iterating the process yields further gains. We apply hybrid fusion iteratively: at each step, the optimised rotation estimate from the previous iteration serves as the new conditioning input.
+Since a single conditioned pass reduces rotation error by 20\%, a natural question is whether iterating the process yields further gains. We apply hybrid fusion iteratively: at each step, the optimised rotation estimate from the previous iteration serves as the new conditioning input. This implements block coordinate descent on an implicit joint pose-feature objective: each iteration updates features (given poses) via the encode-path ray embeddings, then updates poses (given improved features) via the decoder.
 
 \begin{algorithm}[t]
 \caption{Iterated Hybrid Refinement}
@@ -79,4 +79,4 @@ Since a single conditioned pass reduces rotation error by 20\%, a natural questi
     \item \textbf{Early stopping}: Terminate when ARE improvement between iterations falls below $0.1\degree$, or after $M=2$ iterations (empirically sufficient; see Section~\ref{sec:ablation}).
 \end{itemize}
 
-\paragraph{Monte Carlo extension.} The iterative procedure admits a natural stochastic extension: perturbing the conditioning poses before each forward pass and pooling the resulting observations across $S$ samples. Under a posterior sampling interpretation (Section~\ref{sec:theory}), this estimates the posterior mean via Monte Carlo integration, with variance decreasing as $O(1/\sqrt{S})$. We implement this with structured perturbation (shared global rotation preserving inter-camera geometry), Sim(3) alignment across samples, and pool-before-pipeline aggregation. However, our experiments (Section~\ref{sec:ablation_S}) demonstrate that this extension provides no benefit: the model's posterior under self-conditioning is so tightly concentrated that $S=1$ (deterministic iteration) is optimal.
+\paragraph{Stochastic extension.} One might expect that perturbing conditioning poses and averaging across multiple samples (Monte Carlo integration) could further reduce error. We investigate this extension in Section~\ref{sec:ablation_S} and find it provides no benefit: deterministic iteration ($S=1$) is optimal, consistent with the block coordinate descent interpretation where the mechanism is deterministic feature enrichment rather than stochastic denoising.

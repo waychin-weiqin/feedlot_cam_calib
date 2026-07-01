@@ -8,24 +8,24 @@ Warning--empty booktitle in zhang2000
 Warning--can't use both volume and number fields in zhang2000
 You've used 19 entries,
             2118 wiz_defined-function locations,
-            600 strings with 6793 characters,
-and the built_in function-call counts, 6794 in all, are:
-= -- 625
+            599 strings with 6762 characters,
+and the built_in function-call counts, 6747 in all, are:
+= -- 620
 > -- 368
 < -- 5
-+ -- 148
++ -- 147
 - -- 126
-* -- 468
-:= -- 1121
+* -- 463
+:= -- 1116
 add.period$ -- 58
 call.type$ -- 19
 change.case$ -- 119
 chr.to.int$ -- 0
 cite$ -- 22
 duplicate$ -- 272
-empty$ -- 545
+empty$ -- 540
 format.name$ -- 126
-if$ -- 1417
+if$ -- 1407
 int.to.chr$ -- 0
 int.to.str$ -- 19
 missing$ -- 19
@@ -37,7 +37,7 @@ purify$ -- 100
 quote$ -- 0
 skip$ -- 179
 stack$ -- 0
-substring$ -- 324
+substring$ -- 308
 swap$ -- 62
 text.length$ -- 5
 text.prefix$ -- 0

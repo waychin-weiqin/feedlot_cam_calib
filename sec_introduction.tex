@@ -15,9 +15,9 @@ Our contributions are as follows:
 \begin{enumerate}
     \item We provide the first empirical characterisation of self-conditioning dynamics in learned geometry models, showing that conditioned inference acts as a contraction mapping on SO(3) with measurable rate $\lambda \approx 0.8$, while the translation component does not contract due to Sim(3) scale ambiguity.
 
-    \item We propose \emph{decoupled hybrid fusion}, a method that exploits this asymmetry by sourcing rotation edges from conditioned inference and translation edges from unconditioned inference within a unified pose graph.
+    \item We identify the mechanistic pathway: conditioning operates through the \emph{encode path}---ray embeddings derived from approximate poses reduce feature ambiguity before decoding. Layer ablation reveals that the decode-path PoseInjectBlocks (projective rotary position encoding) contribute nothing when zeroed. This identifies self-refinement as block coordinate descent on a joint pose-feature objective.
 
-    \item We show that iterating hybrid fusion achieves 27\% rotation improvement and 36\% relative pose improvement over the baseline at only 3$\times$ compute cost, without any external calibration data. Furthermore, we demonstrate through ablation that Monte Carlo perturbation of the conditioning signal---motivated by a posterior sampling interpretation---provides no measurable benefit, revealing that the model's posterior under self-conditioning is tightly unimodal.
+    \item We propose \emph{decoupled hybrid fusion}, a method that exploits the rotation--translation asymmetry by sourcing rotation edges from conditioned inference and translation edges from unconditioned inference within a unified pose graph. Iterating this fusion achieves 27\% rotation improvement and 36\% relative pose improvement over the baseline at only 3$\times$ compute cost, without any external calibration data.
 
     \item We derive the method's accuracy floor from the measured contraction rate and validate the prediction experimentally, establishing principled criteria for when self-refinement helps and when it saturates.
 \end{enumerate}
